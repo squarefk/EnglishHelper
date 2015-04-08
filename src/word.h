@@ -7,19 +7,22 @@
 
 class Word
 {
-	static int total;// total if the total number  of words        #####!!!  need to be initialize!
-	std::string word;
-	std::string info; 
-	//string phoneticSymbols; //音标
-	//string partOfSpeech; //词性
-	//string interpretation; //释义
-	//string example; //例句
+    QString word;
+    QString info;
+    //QString phoneticSymbols; //音标
+    //QString partOfSpeech; //词性
+    //QString interpretation; //释义
+    //QString example; //例句
 	//记忆参数
 
 public:
 	Word();
 	~Word();
+	static int total;// total if the total number  of words        #####!!!  need to be initialize!
 	friend void Func::loadDictionary(Word* word);
+    friend QString Func::query(QString a);
 };
+
+extern Word word[100000];
 
 #endif

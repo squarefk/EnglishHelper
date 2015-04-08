@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FindUi</class>
+ <widget class="QWidget" name="FindUi">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>500</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>50</y>
+     <width>281</width>
+     <height>391</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLineEdit" name="word">
+        <property name="text">
+         <string>square</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="query">
+        <property name="text">
+         <string>查询</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QLabel" name="meaning">
+      <property name="text">
+       <string>square的定义
+adjective
+having the shape or approximate shape of a square.
+&quot;a square table&quot;
+同义词: quadrilateral, rectangular, oblong, right-angled, at right angles, perpendicular, straight, level, parallel, horizontal, upright, vertical, true, plane
+adverb
+directly; straight.
+&quot;it hit me square in the forehead&quot;
+noun
+a plane figure with four equal straight sides and four right angles.
+&quot;He arranges thin rectangles, squares , triangles and trapezoids in complex patterns on the wall.&quot;
+verb
+make square or rectangular; give a square or rectangular cross section to.
+&quot;you can square off the other edge&quot;</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="back">
+      <property name="text">
+       <string>返回</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <zorder>meaning</zorder>
+  <zorder>word</zorder>
+  <zorder>query</zorder>
+  <zorder>meaning</zorder>
+  <zorder>back</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

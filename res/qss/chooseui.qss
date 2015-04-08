@@ -1,0 +1,30 @@
+QWidget#logo{
+	border-image: url(:/images/images/logo.png);
+}
+
+QPushButton {
+	border-radius:5px;
+	margin: 5% 5%;
+	padding: 10% 0;
+	color: #eeeeff;
+}
+
+QPushButton#find {
+	background-color: rgb(96, 186, 255);
+}
+
+QPushButton#memory {
+	background-color: rgb(0, 205, 0);
+}
+
+QPushButton#article {
+	background-color: orange;
+}
+
+QPushButton#settings {
+	background-color: purple;
+}
+
+QPushButton#exit {
+	background-color: red;
+}

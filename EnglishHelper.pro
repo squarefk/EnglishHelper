@@ -4,23 +4,44 @@
 #
 #-------------------------------------------------
 
-QT       += core
+QT       += webkit
+QT       += webkitwidgets
+QT       += core gui
 
-QT       -= gui
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = EnglishHelper
-CONFIG   += console
-CONFIG   -= app_bundle
-
 TEMPLATE = app
 
 SOURCES += \
-    src/word.cpp \
-    src/func.cpp \
-    src/ui.cpp \
-    src/main.cpp
+    src/main.cpp \
+    src/control.cpp \
+    src/chooseui.cpp \
+    src/findui.cpp \
+    src/memoryui.cpp \
+    src/articleui.cpp \
+    src/settingsui.cpp\
+    src/word.cpp\
+    src/func.cpp
 
-HEADERS += \
+HEADERS  += \
+    src/control.h \
+    src/chooseui.h \
+    src/findui.h \
+    src/memoryui.h \
+    src/articleui.h \
+    src/settingsui.h \
     src/word.h \
-    src/func.h \
-    src/ui.h
+    src/func.h
+
+FORMS    += \
+    form/control.ui \
+    form/chooseui.ui \
+    form/findui.ui \
+    form/memoryui.ui \
+    form/articleui.ui \
+    form/settingsui.ui
+
+RESOURCES += \
+    res/resource.qrc
+

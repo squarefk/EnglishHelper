@@ -1,24 +1,11 @@
-#include "ui.h"
+#include "control.h"
 
-#include <cstdio>
-#include <cstdlib>
+#include <QApplication>
 using namespace std;
 
-Ui *ui;
-
-int main() {
-	ui = new Ui;
-    while (true) {
-        system("clear");
-        ui->choose();
-		switch (getchar())
-		{
-            case '1': ui->find(); break;
-            case '2': ui->memory(); break;
-            case '3': ui->article(); break;
-            case '4': ui->settings(); break;
-			case '0': return 0;
-        }
-	}
-	return 0;
+int main(int argc, char *argv[]) {
+    QApplication a(argc, argv);
+    Control control;
+    control.show();
+    return a.exec();
 }
