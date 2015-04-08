@@ -14,18 +14,13 @@ CONFIG   -= app_bundle
 
 TEMPLATE = app
 
-
 SOURCES += \
     src/word.cpp \
-    src/trie.cpp \
-    src/dictionary.cpp \
     src/func.cpp \
     src/ui.cpp \
     src/main.cpp
 
 HEADERS += \
     src/word.h \
-    src/trie.h \
-    src/dictionary.h \
     src/func.h \
     src/ui.h

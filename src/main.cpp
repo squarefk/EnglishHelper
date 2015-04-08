@@ -9,6 +9,7 @@ Ui *ui;
 int main() {
 	ui = new Ui;
     while (true) {
+        system("clear");
         ui->choose();
 		switch (getchar())
 		{
@@ -17,8 +18,7 @@ int main() {
             case '3': ui->article(); break;
             case '4': ui->settings(); break;
 			case '0': return 0;
-		}
-		system("cls");
+        }
 	}
 	return 0;
 }
