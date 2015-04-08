@@ -5,4 +5,7 @@
     <qresource prefix="/qss">
         <file>qss/chooseui.qss</file>
     </qresource>
+    <qresource prefix="/dictionary">
+        <file>dictionary/dictionary.txt</file>
+    </qresource>
 </RCC>
