@@ -10,16 +10,25 @@
     <height>500</height>
    </rect>
   </property>
+  <property name="mouseTracking">
+   <bool>true</bool>
+  </property>
+  <property name="focusPolicy">
+   <enum>Qt::StrongFocus</enum>
+  </property>
+  <property name="acceptDrops">
+   <bool>true</bool>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>50</y>
-     <width>281</width>
-     <height>391</height>
+     <x>40</x>
+     <y>42</y>
+     <width>321</width>
+     <height>421</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -27,6 +36,9 @@
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
        <widget class="QLineEdit" name="word">
+        <property name="focusPolicy">
+         <enum>Qt::StrongFocus</enum>
+        </property>
         <property name="text">
          <string>square</string>
         </property>
@@ -34,48 +46,82 @@
       </item>
       <item>
        <widget class="QPushButton" name="query">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="text">
          <string>查询</string>
+        </property>
+        <property name="shortcut">
+         <string>Return</string>
         </property>
        </widget>
       </item>
      </layout>
     </item>
     <item>
-     <widget class="QLabel" name="meaning">
-      <property name="text">
-       <string>square的定义
-adjective
-having the shape or approximate shape of a square.
-&quot;a square table&quot;
-同义词: quadrilateral, rectangular, oblong, right-angled, at right angles, perpendicular, straight, level, parallel, horizontal, upright, vertical, true, plane
-adverb
-directly; straight.
-&quot;it hit me square in the forehead&quot;
-noun
-a plane figure with four equal straight sides and four right angles.
-&quot;He arranges thin rectangles, squares , triangles and trapezoids in complex patterns on the wall.&quot;
-verb
-make square or rectangular; give a square or rectangular cross section to.
-&quot;you can square off the other edge&quot;</string>
+     <widget class="QScrollArea" name="scrollArea">
+      <property name="focusPolicy">
+       <enum>Qt::StrongFocus</enum>
       </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents_2">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>317</width>
+         <height>332</height>
+        </rect>
+       </property>
+      </widget>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="back">
-      <property name="text">
-       <string>返回</string>
-      </property>
-     </widget>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QPushButton" name="back">
+        <property name="minimumSize">
+         <size>
+          <width>222</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>222</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>返回</string>
+        </property>
+        <property name="shortcut">
+         <string>Esc</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
-  <zorder>meaning</zorder>
-  <zorder>word</zorder>
-  <zorder>query</zorder>
-  <zorder>meaning</zorder>
-  <zorder>back</zorder>
  </widget>
+ <tabstops>
+  <tabstop>query</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>back</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

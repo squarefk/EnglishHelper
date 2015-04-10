@@ -4,8 +4,10 @@
     </qresource>
     <qresource prefix="/qss">
         <file>qss/chooseui.qss</file>
-    </qresource>
-    <qresource prefix="/dictionary">
-        <file>dictionary/dictionary.txt</file>
+        <file>qss/findui.qss</file>
+        <file>qss/articleui.qss</file>
+        <file>qss/memoryui.qss</file>
+        <file>qss/settingsui.qss</file>
+        <file>qss/aboutui.qss</file>
     </qresource>
 </RCC>

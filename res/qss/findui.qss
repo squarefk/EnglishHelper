@@ -1,0 +1,31 @@
+QLineEdit {
+	background-color: #fff;
+	margin: 0% 5%;
+	padding: 7% 0;
+	border-radius:5px;
+	border: 1px solid grey;
+        font-family: Verdana;
+}
+
+QPushButton {
+	border-radius:5px;
+	margin: 5% 5%;
+	padding: 10% 0;
+	color: #eeeeff;
+}
+
+QPushButton#query {
+	background-color: rgb(96, 186, 255);
+}
+
+QPushButton#query:pressed {
+	background-color: rgb(86, 176, 245);
+}
+
+QPushButton#back {
+	background-color: rgb(255, 0, 0);
+}
+
+QPushButton#back:pressed {
+	background-color: rgb(245, 0, 0);
+}

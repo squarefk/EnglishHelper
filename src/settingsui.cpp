@@ -7,8 +7,15 @@ SettingsUi::SettingsUi(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QFile *file = new QFile(":qss/qss/settingsui.qss");
+    file->open(QFile::ReadOnly);
+    setStyleSheet(file->readAll());
+    file->deleteLater();
+
     connect(ui->back, SIGNAL(clicked()),
             this, SIGNAL(backClicked()));
+    connect(ui->about, SIGNAL(clicked()),
+            new AboutUi, SLOT(exec()));
 }
 
 SettingsUi::~SettingsUi()

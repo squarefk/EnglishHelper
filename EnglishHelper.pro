@@ -22,7 +22,8 @@ SOURCES += \
     src/articleui.cpp \
     src/settingsui.cpp\
     src/word.cpp\
-    src/func.cpp
+    src/func.cpp \
+    src/aboutui.cpp
 
 HEADERS  += \
     src/control.h \
@@ -32,7 +33,8 @@ HEADERS  += \
     src/articleui.h \
     src/settingsui.h \
     src/word.h \
-    src/func.h
+    src/func.h \
+    src/aboutui.h
 
 FORMS    += \
     form/control.ui \
@@ -40,8 +42,19 @@ FORMS    += \
     form/findui.ui \
     form/memoryui.ui \
     form/articleui.ui \
-    form/settingsui.ui
+    form/settingsui.ui \
+    form/aboutui.ui
 
 RESOURCES += \
-    res/resource.qrc
+    res/resource.qrc \
 
+DISTFILES += \
+    res/dictionary/dictionary.txt
+
+macx{
+    copy_dictionary.path=$$OUT_PWD/EnglishHelper.app/Contents/MacOS/
+}
+copy_dictionary.files += res/dictionary/dictionary.txt
+
+INSTALLS += \
+    copy_dictionary

@@ -2,9 +2,9 @@
 #include "word.h"
 #include <QFile>
 #include <QTextStream>
-#include <QDebug>
 #include <QMessageBox>
 #include <QDir>
+#include <QDebug>
 #include <iostream>
 #include <cstdlib>
 #include <cstdio>
@@ -47,19 +47,16 @@ QString Func::query(QString a){
 void Func::loadDictionary(Word* word)
 {
 
-    qDebug()<<"vcc";
     QString cut="------------------------------";
     QString str,line,myword;
 
 
     //1.
 
-    QFile *file = new QFile(":dictionary/dictionary/dictionary.txt");
+    QFile *file = new QFile("dictionary.txt");
 
     if (file->open(QFile::ReadOnly))
     {
-        qDebug()<<"open file";
-        //return;//
         file->deleteLater();
         QTextStream stream( file );
         int count=0;
@@ -99,14 +96,10 @@ void Func::loadDictionary(Word* word)
         qDebug()<<"no file";
     }
 
-    qDebug()<<Word::total;
-
 	//2.
 	for (int i=1;i<=word[0].total;i++){
         dict.insert(std::pair<QString,int>(word[i].word,i));
     }
-
-    qDebug()<<query("apple");
 }
 
 void Func::loadUser()

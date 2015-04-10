@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QString>
+#include <QLabel>
+#include <QFile>
 
 namespace Ui {
 class FindUi;
@@ -18,6 +20,7 @@ public:
     void queryResult(QString);
 
 private:
+    QLabel *meaning;
     Ui::FindUi *ui;
 
 signals:

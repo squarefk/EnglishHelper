@@ -1,7 +1,10 @@
 #ifndef SETTINGSUI_H
 #define SETTINGSUI_H
 
+#include "aboutui.h"
+
 #include <QWidget>
+#include <QFile>
 
 namespace Ui {
 class SettingsUi;

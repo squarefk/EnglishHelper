@@ -7,6 +7,16 @@ FindUi::FindUi(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QFile *file = new QFile(":qss/qss/findui.qss");
+    file->open(QFile::ReadOnly);
+    setStyleSheet(file->readAll());
+    file->deleteLater();
+
+    meaning = new QLabel;
+    meaning->setWordWrap(true);
+    ui->word->setFocus();
+    ui->scrollArea->setWidget(meaning);
+
     connect(ui->back, SIGNAL(clicked()),
             this, SIGNAL(backClicked()));
     connect(ui->query, SIGNAL(clicked()),
@@ -23,7 +33,7 @@ void FindUi::queryClicked()
     emit query(ui->word->text());
 }
 
-void FindUi::queryResult(QString meaning)
+void FindUi::queryResult(QString content)
 {
-    ui->meaning->setText(meaning);
+    meaning->setText(content);
 }

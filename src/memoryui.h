@@ -2,6 +2,7 @@
 #define MEMORYUI_H
 
 #include <QWidget>
+#include <QFile>
 
 namespace Ui {
 class MemoryUi;
