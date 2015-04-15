@@ -1,6 +1,8 @@
 #include "control.h"
 #include "ui_control.h"
 
+#include <QDebug>
+
 Control::Control(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Control)
@@ -51,6 +53,7 @@ Control::~Control()
 
 void Control::showChoose()
 {
+    //qDebug() << "showChoose";
     stack->setCurrentWidget(chooseUi);
 }
 
@@ -62,6 +65,8 @@ void Control::showFind()
 void Control::showMemory()
 {
     stack->setCurrentWidget(memoryUi);
+    QString primaryWord=func->getWord();
+    memoryUi->newTest(primaryWord,func->similar(primaryWord));
 }
 
 void Control::showArticle()
@@ -78,3 +83,4 @@ void Control::query(QString word)
 {
     findUi->queryResult(func->query(word));
 }
+

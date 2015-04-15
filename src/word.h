@@ -7,8 +7,6 @@
 
 class Word
 {
-    QString word;
-    QString info;
     //QString phoneticSymbols; //音标
     //QString partOfSpeech; //词性
     //QString interpretation; //释义
@@ -16,13 +14,20 @@ class Word
 	//记忆参数
 
 public:
-	Word();
+    QString word;
+    QString info;
+    Word();
 	~Word();
 	static int total;// total if the total number  of words        #####!!!  need to be initialize!
 	friend void Func::loadDictionary(Word* word);
     friend QString Func::query(QString a);
+    friend QString *Func::similar(QString primaryWord);
 };
 
 extern Word word[100000];
+
+class userWord:public Word{
+
+};
 
 #endif

@@ -1,0 +1,6 @@
+reloadTypeByTime()//
+getTest(int tot)//返回tot个单词的memory编号
+***answerForTest(int id,enum answer{correct,incorrect})
+reloadTypeByTest()//
+saveUser()//
+

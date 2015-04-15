@@ -15,12 +15,16 @@ class MemoryUi : public QWidget
 public:
     explicit MemoryUi(QWidget *parent = 0);
     ~MemoryUi();
+    void newTest(QString primaryWord,QString* primaryList);
 
 private:
     Ui::MemoryUi *ui;
 
+
 signals:
     void backClicked();
+private slots:
+    //void on_next_clicked();
 };
 
 #endif // MEMORYUI_H

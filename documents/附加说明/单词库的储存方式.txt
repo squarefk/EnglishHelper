@@ -1,0 +1,9 @@
+Class Word{
+  string word;
+  string info;
+};
+
+每个单词信息以单独的一行###分隔
+对于每个信息
+第一行为单词
+第二行开始为单词信息

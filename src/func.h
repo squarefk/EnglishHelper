@@ -13,6 +13,11 @@ extern std::map<QString,int> dict;
 
 class Func
 {
+private:
+    QString similarList[10000];
+    int numberList[10000];
+    int similarTot;
+
 public:
 	Func();
 	~Func();
@@ -23,7 +28,7 @@ public:
     QString randomWord(); //随机生成单词
 	void article(char *file); //助手
     QString query(QString a);
-    QString* findSame(QString a);
+    QString getWord();
 };
 
 

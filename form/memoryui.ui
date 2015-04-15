@@ -17,9 +17,9 @@
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>30</y>
+     <y>0</y>
      <width>301</width>
-     <height>441</height>
+     <height>476</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -38,7 +38,7 @@
        </size>
       </property>
       <property name="text">
-       <string>请问以下哪个同学是逗比：</string>
+       <string>请问以下哪个是释义描述的正确单词：</string>
       </property>
      </widget>
     </item>

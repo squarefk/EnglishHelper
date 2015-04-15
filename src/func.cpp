@@ -2,6 +2,7 @@
 #include "word.h"
 #include <QFile>
 #include <QTextStream>
+#include <QTextCodec>
 #include <QMessageBox>
 #include <QDir>
 #include <QDebug>
@@ -9,6 +10,8 @@
 #include <cstdlib>
 #include <cstdio>
 #include <cstring>
+#include <algorithm>
+
 
 std::map<QString,int> dict;
 
@@ -31,8 +34,10 @@ Func::~Func()
 //  2.and pair<sting,i1nt> into map , the 'int' is the position number of this word in word[]
 //**********************************************
 
-QString* findSimilar(QString a){
-    return NULL;
+QString Func::getWord()
+{
+    int number=rand()%Word::total;
+    return word[number].word;
 }
 
 QString Func::query(QString a){
@@ -55,10 +60,12 @@ void Func::loadDictionary(Word* word)
 
     QFile *file = new QFile("dictionary.txt");
 
-    if (file->open(QFile::ReadOnly))
+    if (file->open(QFile::ReadOnly | QFile::Text))
     {
         file->deleteLater();
-        QTextStream stream( file );
+        QByteArray buff = file->readAll();
+        QTextStream stream( &buff );
+        stream.setCodec(QTextCodec::codecForUtfText(buff, QTextCodec::codecForName("utf-8")));
         int count=0;
         while ( !stream.atEnd() ) {
             line = stream.readLine(); // 不包括“/n”的一行文本
@@ -112,9 +119,114 @@ void Func::saveUser()
 
 }
 
-QString *Func::similar(QString word)
+void addStringList(const QString &newWord,int &similarTot,QString *stringList)
 {
-    return NULL;
+    if (dict.find(newWord)!=dict.end())
+    {
+        if (newWord.size()!=0) stringList[similarTot++]=newWord;
+        //qDebug()<<"The "<<similarTot<<"similar word: "<<newWord;//
+    }
+
+}
+
+void findSimilar(QString primaryWord,int &similarTot,QString* similarList)
+{
+    int recordTot=similarTot;
+    double digit=0.5;
+    for (int k=0;k<Word::total;k++)
+    {
+        if (digit>20) digit=0.7;
+        if (digit>50) digit=0.8;
+        if (digit>100) digit=0.9;
+        int flag=0,len=0;QString recordWord;
+        for (int i=0;i<primaryWord.size();i++)
+        {
+            for (int j=i+1;j<primaryWord.size();j++)
+            {
+                QString smallWord=primaryWord.mid(i,j-i+1);
+                if (word[k].word.contains(smallWord))
+                {
+                   flag=1;
+                   if (smallWord.size()>len)
+                   {
+                       len=smallWord.size();
+                       recordWord=smallWord;
+                   }
+                }
+
+            }
+        }
+        if (double(len)/word[k].word.size()>digit)
+        {
+            if (word[k].word.size()!=0) similarList[++similarTot]=word[k].word;
+        }
+    }
+    qDebug()<<"findSimilar: "<<similarTot-recordTot;
+}
+
+void changeOneChar(QString primaryWord,int &similarTot,QString* similarList)
+{
+    QString newWord=primaryWord;
+    int recordTot=similarTot;
+
+    //Change one character
+    for (int i=0;i<primaryWord.size();i++)
+    {
+        for (int j='a';j<='z';j++) if (j!=primaryWord[i])
+        {
+            newWord[i]=j;
+            addStringList(newWord,similarTot,similarList);
+        }
+
+        for (int j='A';j<='Z';j++) if (j!=primaryWord[i])
+        {
+            newWord[i]=j;
+            addStringList(newWord,similarTot,similarList);
+        }
+
+        newWord[i]=primaryWord[i];
+    }
+    qDebug()<<"changeOneChar: "<<similarTot-recordTot;
+}
+void addSuffix(QString primaryWord,int &similarTot,QString *similarList)
+{
+    int recordTot=similarTot;
+    QString newWord;
+    for (int i=0;i<Word::total;i++)
+    {
+        if (word[i].word[0]=='-')
+        {
+            newWord=primaryWord;
+            for (int j=1;j<word[i].word.size();j++) newWord+=word[i].word[j];
+            addStringList(newWord,similarTot,similarList);
+        }
+    }
+    qDebug()<<"addSuffix: "<<similarTot-recordTot;
+
+}
+void addToFourString(QString primartWord,int &similarTot,QString *similarList)
+{
+    for (int i=similarTot;i<4;i++) similarList[i]=similarList[similarTot-1];
+    similarTot=std::max(similarTot,4);
+
+}
+
+QString *Func::similar(QString primaryWord)
+{
+    similarList[0]=primaryWord;
+    similarTot=1;
+
+    changeOneChar(primaryWord,similarTot,similarList);
+
+    //addSuffix(primaryWord,similarTot,similarList);
+    findSimilar(primaryWord,similarTot,similarList);
+
+    addToFourString(primaryWord,similarTot,similarList);
+
+
+    qDebug()<<"totfind: "<<similarTot;
+    std::random_shuffle(similarList,similarList+similarTot);
+    return similarList;
 }
 
 QString Func::randomWord()

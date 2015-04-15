@@ -1,0 +1,12 @@
+class Memory{
+  string word;
+  enum type={newWord,grayWord,knownWord};//0生词 1灰词 2熟词
+  int time;//最近访问时间
+  int totVisit;//总访问次数
+  int totWroing//总错数
+  int continueCorrect;//连续正确
+  int id;//在单词库中的编号
+};
+
+以###为分隔符
+每个属性各占一行

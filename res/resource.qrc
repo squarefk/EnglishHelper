@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/images">
         <file>images/logo.png</file>
+        <file>dictionary/dictionary.txt</file>
     </qresource>
     <qresource prefix="/qss">
         <file>qss/chooseui.qss</file>
