@@ -23,7 +23,8 @@ SOURCES += \
     src/settingsui.cpp\
     src/word.cpp\
     src/func.cpp \
-    src/aboutui.cpp
+    src/aboutui.cpp \
+    src/user.cpp
 
 HEADERS  += \
     src/control.h \
@@ -34,7 +35,8 @@ HEADERS  += \
     src/settingsui.h \
     src/word.h \
     src/func.h \
-    src/aboutui.h
+    src/aboutui.h \
+    src/user.h
 
 FORMS    += \
     form/control.ui \

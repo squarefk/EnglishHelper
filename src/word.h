@@ -20,14 +20,11 @@ public:
 	~Word();
 	static int total;// total if the total number  of words        #####!!!  need to be initialize!
 	friend void Func::loadDictionary(Word* word);
-    friend QString Func::query(QString a);
-    friend QString *Func::similar(QString primaryWord);
+    friend Func::QueryPair Func::query(QString a);
+    //friend QString *Func::similar(QString primaryWord);
 };
 
 extern Word word[100000];
 
-class userWord:public Word{
-
-};
 
 #endif

@@ -1,1 +1,2 @@
 1.关联文件，存入Memory数组
+2.加载userDict

@@ -65,8 +65,8 @@ void Control::showFind()
 void Control::showMemory()
 {
     stack->setCurrentWidget(memoryUi);
-    QString primaryWord=func->getWord();
-    memoryUi->newTest(primaryWord,func->similar(primaryWord));
+   // QString primaryWord=func->getWord();
+    //memoryUi->newTest(primaryWord,func->findSimilar(primaryWord));
 }
 
 void Control::showArticle()
@@ -81,6 +81,6 @@ void Control::showSettings()
 
 void Control::query(QString word)
 {
-    findUi->queryResult(func->query(word));
+    //findUi->queryResult(func->query(word));
 }
 

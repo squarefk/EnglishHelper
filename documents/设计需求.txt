@@ -5,5 +5,7 @@ Func Class
   saveUser()//导出记忆信息
   query(string word)//查单词，返回单词信息和亲缘单词
   makeTest(int tot)//返回tot个单词和每个的4个中文释义
+  answerForTest();
+  endTest();
   analysisArticle(string *article)//传入一篇文章，返回一个数组为生单词的词库下标
   
