@@ -30,24 +30,20 @@ public:
     };
     class TestPair{
     public:
-        QString first;
+        int first;
         QString* second;
     };
     Func();
 	~Func();
-	void loadDictionary(Word *word); //导入字典
+    void loadDictionary(); //导入字典
     void saveDictionary();//导出字典
 	void loadUser(); //导入记忆信息
 	void saveUser(); //导出记忆信息
-    QueryPair query(QString a);//查单词
+    QueryPair* query(QString a);//查单词
     TestPair* startTest(int tot);//测试准备
     void answerForTest(int id,Answer answer);//每道题的回答
     void endTest();//测试结束
     int* analysisArticle(QString* article,int tot);//分析文章
-    //QString *similar(QString word); //生成相似单词(增加前缀和后缀，修改相邻字母的位置，然后查询这个词是否在字典中出现)
-    //QString randomWord(); //随机生成单词
-    //void article(char *file); //助手
-    //QString getWord();
 };
 
 #endif

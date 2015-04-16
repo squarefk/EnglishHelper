@@ -1,6 +1,6 @@
 #include "func.h"
 #include "word.h"
-//#include "user.h"
+#include "user.h"
 #include <QFile>
 #include <QTextStream>
 #include <QTextCodec>
@@ -20,7 +20,8 @@ std::map<QString,int> userDict;
 
 Func::Func()
 {
-    loadDictionary(word);
+    loadDictionary();
+    loadUser();
 }
 
 Func::~Func()
@@ -36,132 +37,130 @@ Func::~Func()
 //**********************************************
 
 //导入单词库
-void Func::loadDictionary(Word* word)
+void makeIndex_Dict()
 {
+    for (int i=1;i<=Word::total;i++){
+        dict.insert(std::pair<QString,int>(word[i].word,i));
+    }
 
-    QString cut="------------------------------";
-    QString str,line,myword;
+}
 
-
+void Func::loadDictionary(){
     //1.
-
     QFile *file = new QFile("dictionary.txt");
 
     if (file->open(QFile::ReadOnly | QFile::Text))
     {
+        QString line,ll;int tot=0;
         file->deleteLater();
         QByteArray buff = file->readAll();
         QTextStream stream( &buff );
-        stream.setCodec(QTextCodec::codecForUtfText(buff, QTextCodec::codecForName("utf-8")));
-        int count=0;
+        stream.setCodec("UTF-8");
+        //int count=0;
+        //int ttt=0;
         while ( !stream.atEnd() ) {
-            line = stream.readLine(); // 不包括“/n”的一行文本
-            count++;
-            if (line==cut){
+            word[tot].word=stream.readLine();
+            line=stream.readLine();
+            while (line!="###"){
+                word[tot].info+=line;
+                word[tot].info+='\n';
 
-                if (str.size()!=0)
-                {
-                    while (str.size()&&str[str.size()-1]<=32) str.remove(str.size()-1,1);
-
-                    for (int i=0;i<int(str.size());i++){
-                        if (str[i]=='('||str[i]=='/') break;
-
-                        myword+=str[i];
-                    }
-                    while (myword.size()&&myword[myword.size()-1]<=32) myword.remove(myword.size()-1,1);
-
-                    Word::total++;
-                    word[Word::total].word=myword;
-                    word[Word::total].info=str;
-
-                    str="";
-                    myword="";
-                }
-            }else
-            {
-                if (str.size()!=0) str=str+'\n';
-                str=str+line;
+                line=stream.readLine();
             }
 
+            word[tot].info.remove(word[tot].info.size()-1,1);
+            tot++;
         }
+        Word::total=tot;
         file->close();
     }else
     {
         qDebug()<<"no file";
     }
 
-    //2.
-    for (int i=1;i<=word[0].total;i++){
-        dict.insert(std::pair<QString,int>(word[i].word,i));
-    }
+    makeIndex_Dict();
 }
 
 void Func::saveDictionary(){
-    QFile *file = new QFile("user_save.txt");
+    QFile *file = new QFile("dictionary_save.txt");
 
     if (file->open(QFile::WriteOnly | QFile::Text))
     {
-        qDebug()<<"open user.txt success";
+        qDebug()<<"open dictionary_save.txt success";
         QTextStream stream(file);
+        QByteArray buff;
+        stream.setCodec("UTF-8");
         for (int i=0;i<Word::total;i++){
             stream<<word[i].word<<endl;
             stream<<word[i].info<<endl;
-            stream<<"###";
+            stream<<"###"<<endl;
         }
 
         file->close();
     }else{
-        qDebug()<<"open user.txt fail";
+        qDebug()<<"open dictionary_save.txt fail";
     }
 
 }
+void makeIndex_userDict(){
+    for (int i=0;i<User::total;i++)
+    {
+        userDict.insert(std::pair<QString,int>(user[i].word,i));
+    }
+}
 
-/*void Func::loadUser()
+void Func::loadUser()
 {
     QFile *file = new QFile("user.txt");
 
     if (file->open(QFile::ReadOnly | QFile::Text))
     {
-        int tot;QString line;
+        int tot=0;QString line;
         qDebug()<<"open user.txt success";
         QByteArray buff = file->readAll();
         QTextStream stream( &buff );
-        stream.setCodec(QTextCodec::codecForUtfText(buff, QTextCodec::codecForName("utf-8")));
+        stream.setCodec("UTF-8");
+        //stream.setCodec(QTextCodec::codecForUtfText(buff, QTextCodec::codecForName("utf-8")));
         while(!stream.atEnd())
         {
-            tot++;
-            user[tot].word="";
-            line=stream.readLine();
-            while (line!="###")
+            user[tot].word=stream.readLine();
+            while (user[tot].word.size()&&
+                   (user[tot].word[user[tot].word.size()-1]=='\n'||user[tot].word[user[tot].word.size()-1]==' '))
             {
-                user[tot].word+=line;
+                user[tot].word.remove(user[tot].word.size()-1,1);
             }
-            stream>>user[tot].type;
-            stream>>user[tot].time;
-            stream>>user[tot].totVisit;
-            stream>>user[tot].totWrong;
-            stream>>user[tot].cotinueCorrect;
-            stream>>user[tot].id;
+            if (user[tot].word.size()){
+                   stream>>user[tot].type;
+                stream>>user[tot].time;
+                stream>>user[tot].totVisit;
+                stream>>user[tot].totWrong;
+                stream>>user[tot].cotinueCorrect;
+                stream>>user[tot].id;
+                stream.readLine();
+                //qDebug()<<user[tot].word;
+                tot++;
+            }
         }
-        User::userTot=tot;
+        User::total=tot;
         file->close();
     }else{
         qDebug()<<"open user.txt fail";
     }
 
-}*/
+    makeIndex_userDict();
+}
 
-/*void Func::saveUser()
+void Func::saveUser()
 {
     QFile *file = new QFile("user_save.txt");
 
     if (file->open(QFile::WriteOnly | QFile::Text))
     {
-        qDebug()<<"open user.txt success";
+        qDebug()<<"open user_save.txt success";
         QTextStream stream(file);
-        for (int i=0;i<User::userTot;i++){
+        stream.setCodec("UTF-8");
+        for (int i=0;i<User::total;i++){
             stream<<user[i].word<<endl;
-            stream<<"###"<<endl;
             stream<<user[i].type<<endl;
             stream<<user[i].time<<endl;
             stream<<user[i].totVisit<<endl;
@@ -173,71 +172,98 @@ void Func::saveDictionary(){
 
         file->close();
     }else{
-        qDebug()<<"open user.txt fail";
+        qDebug()<<"open user_save.txt fail";
     }
 
-}*/
+}
 
-namespace Query
+namespace QuerySpace
 {
-    //返回最多5个相似单词数组,为-1表示没有
+    //返回最多5个相似单词数组,为###表示没有
     QString* relative(QString myWord)
     {
-        QString answer[5];int tot=0;
-        for (int i=0;i<5;i++) answer[i]=-1;
+        QString *answer = new QString[6];
+        int tot=0;
+        for (int i=0;i<6;i++) answer[i]="###";
         QString smallWord;
-        for (int i=0;i<myWord.size()-1;i++)
+        for (int i=1;i<myWord.size()-1;i++)
         {
             smallWord="";
             for (int j=i;j<myWord.size();j++) smallWord+=myWord[j];
-            for (int j=0;j<Word::total;j++)
-                if (word[j].word.contains(smallWord)&&tot<5)
+            for (int j=0;j<Word::total;j++) if (tot<5)
+                if (word[j].word.contains(smallWord)&&word[j].word!=myWord)
                 {
                     for (int k=0;k<tot;k++) if (answer[k]==word[j].word) break;
                     answer[tot++]=word[j].word;
+
+                //    qDebug()<<"find similar1: "<<answer[tot-1];
                 }
         }
         for (int i=1;i<myWord.size();i++)
         {
             smallWord="";
             for (int j=0;j<=i;j++) smallWord+=myWord[j];
-            for (int j=0;j<Word::total;j++)
-                if (word[j].word.contains(smallWord)&&tot<5)
+            for (int j=0;j<Word::total;j++) if (tot<5)
+                if (word[j].word.contains(smallWord)&&word[j].word!=myWord)
                 {
                     for (int k=0;k<tot;k++) if (answer[k]==word[j].word) break;
                     answer[tot++]=word[j].word;
+                //    qDebug()<<"find similar2: "<<answer[tot-1];
                 }
         }
         return answer;
     }
 }
 //查询单词
-Func::QueryPair Func::query(QString a){
-    QueryPair answer;
+Func::QueryPair* Func::query(QString a){
+    QueryPair *answer=new QueryPair;
     if (dict.find(a) != dict.end()){
         int b=dict[a];
-        answer.first=word[b].info;
-        answer.second=Query::relative(word[b].word);
+        answer->first=word[b].info;
+        answer->second=QuerySpace::relative(word[b].word);
         return answer;
     }
-    answer.first="No this word!";
-    answer.second=NULL;
+    answer->first="No this word!";
+    answer->second=new QString[1];
+    answer->second[0]="###";
     return answer;
 }
 
 namespace StartTest
 {
+    int getSystemTime()
+    {
+        return std::time(NULL);
+    }
+
     void addNewWordToUser(int tot)
     {
-        //for (int i=0;i<tot;i++) if ()
+        srand(time(NULL));
+        int newID;
+        for (int i=1;i<=tot;i++)
+        {
+            do{
+                newID=(rand()*rand())%Word::total;
+            }
+            while(userDict.find(word[newID].word)!=userDict.end());
+
+            user[User::total].word=word[newID].word;
+            user[User::total].type=User::newWord;
+            user[User::total].time=getSystemTime();
+            user[User::total].totVisit=0;
+            user[User::total].totWrong=0;
+            user[User::total].cotinueCorrect=0;
+            user[User::total].id=newID;
+            User::total++;
+        }
     }
 
     void reloadTypeByTime()
     {
-        int time=std::time(NULL);
-        for (int i=0;i<User::userTot;i++)
+        int time=getSystemTime();
+        for (int i=0;i<User::total;i++)
         {
-            int day=(user[i].time-time)/86400;
+            int day=abs(time-user[i].time)/86400;
             if (user[i].type=User::knownWord)
             {
                 if ((day>=5&&user[i].cotinueCorrect<=1)
@@ -260,154 +286,134 @@ namespace StartTest
     {
         srand(time(NULL));
         int grayWordTot=int(tot*0.6),newWordTot=int(tot*0.3),knownWordTot=tot-grayWordTot-newWordTot;
-        int *use=new int[User::userTot],*line=new int[User::userTot],* ans=new int[User::userTot];
-        for (int i=0;i<User::userTot;i++) use[i]=0;
+        int *use=new int[User::total],*line=new int[User::total],* ans=new int[tot];
+        for (int i=0;i<User::total;i++) use[i]=0;
         int totNow=0,ansTot=0;
-        for (int i=0;i<User::userTot;i++) if (user[i].type==User::grayWord)
+        for (int i=0;i<User::total;i++) if (user[i].type==User::grayWord)
         {
             line[totNow++]=i;
         }
         std::random_shuffle(line,line+totNow);
-        for (int i=1;i<=std::min(totNow,grayWordTot);i++) {use[i]=1;ans[ansTot++]=line[i];}
+        for (int i=1;i<=std::min(totNow,grayWordTot);i++) {use[line[i]]=1;ans[ansTot++]=line[i];}
+        totNow=0;
+        for (int i=0;i<User::total;i++) if (user[i].type==User::newWord)
+        {
+            line[totNow++]=i;
+        }
+        std::random_shuffle(line,line+totNow);
+        for (int i=1;i<=std::min(totNow,newWordTot);i++) {ans[ansTot++]=line[i];use[line[i]]=1;}
 
         totNow=0;
-        for (int i=0;i<User::userTot;i++) if (user[i].type==User::newWord)
+        for (int i=0;i<User::total;i++) if (user[i].type==User::knownWord)
         {
             line[totNow++]=i;
         }
         std::random_shuffle(line,line+totNow);
-        for (int i=1;i<=std::min(totNow,newWordTot);i++) {ans[ansTot++]=line[i];use[i]=1;}
-
-        totNow=0;
-        for (int i=0;i<User::userTot;i++) if (user[i].type==User::knownWord)
-        {
-            line[totNow++]=i;
-        }
-        std::random_shuffle(line,line+totNow);
-        for (int i=1;i<=std::min(knownWordTot,totNow);i++) {use[i]=1;ans[ansTot++]=line[i];}
+        for (int i=1;i<=std::min(knownWordTot,totNow);i++) {use[line[i]]=1;ans[ansTot++]=line[i];}
 
         if (ansTot<tot)
         {
-            for (int i=0;i<User::userTot;i++) if (ansTot<tot&&user[i].type==User::grayWord&&!use[i])
+            for (int i=0;i<User::total;i++) if (ansTot<tot&&user[i].type==User::grayWord&&!use[i])
             {
                 use[i]=1;
                 ans[ansTot++]=i;
             }
-            for (int i=0;i<User::userTot;i++) if (ansTot<tot&&user[i].type==User::grayWord&&!use[i])
+            for (int i=0;i<User::total;i++) if (ansTot<tot&&user[i].type==User::newWord&&!use[i])
             {
                 use[i]=1;
                 ans[ansTot++]=i;
             }
 
         }
+        //return ans;
 
         if (ansTot<tot)
         {
+            int oldTot=ansTot;
+            qDebug()<<"need to addNewWord:"<<tot-ansTot;
             addNewWordToUser(tot-ansTot);
-            for (int i=User::userTot-1;i>=0&&ansTot<tot;i--) ans[ansTot++]=i;
+            for (int i=oldTot;i<tot;i++) ans[ansTot++]=i;
         }
-
-        return ans;
-    }
-    /*void addStringList(const QString &newWord,int &similarTot,QString *stringList)
-    {
-        if (dict.find(newWord)!=dict.end())
-        {
-            if (newWord.size()!=0) stringList[similarTot++]=newWord;
-            //qDebug()<<"The "<<similarTot<<"similar word: "<<newWord;//
-        }
-
+        delete[] use;
+        delete[] line;
+        return ans;//
     }
 
-    void changeOneChar(QString primaryWord,int &similarTot,QString* similarList)
-    {
+    void changeOneLetter(QString* ans,int &tot,const QString &primaryWord){
         QString newWord=primaryWord;
-        int recordTot=similarTot;
-
-        //Change one character
-        for (int i=0;i<primaryWord.size();i++)
-        {
-            for (int j='a';j<='z';j++) if (j!=primaryWord[i])
+        for (int i=0;i<primaryWord.size();i++){
+            for (char a='a';a<='z';a++) if (a!=primaryWord[i])
             {
-                newWord[i]=j;
-                addStringList(newWord,similarTot,similarList);
+                newWord[i]=a;
+                if (tot<4&&dict.find(newWord)!=dict.end())
+                {
+                    ans[tot++]=newWord;
+                }
             }
-
-            for (int j='A';j<='Z';j++) if (j!=primaryWord[i])
-            {
-                newWord[i]=j;
-                addStringList(newWord,similarTot,similarList);
-            }
-
             newWord[i]=primaryWord[i];
         }
-        qDebug()<<"changeOneChar: "<<similarTot-recordTot;
     }
-    void addSuffix(QString primaryWord,int &similarTot,QString *similarList)
-    {
-        int recordTot=similarTot;
-        QString newWord;
-        for (int i=0;i<Word::total;i++)
-        {
-            if (word[i].word[0]=='-')
-            {
-                newWord=primaryWord;
-                for (int j=1;j<word[i].word.size();j++) newWord+=word[i].word[j];
-                addStringList(newWord,similarTot,similarList);
-            }
-        }
-        qDebug()<<"addSuffix: "<<similarTot-recordTot;
-
-    }
-    void addToFourString(QString primartWord,int &similarTot,QString *similarList)
-    {
-        for (int i=similarTot;i<4;i++) similarList[i]=similarList[similarTot-1];
-        similarTot=std::max(similarTot,4);
-
-    }*/
-
-    QString* findSimilar(QString primaryWord)
-    {
-        QString ans[4];int tot=0;
-        ans[0]=primaryWord;
-        /*similarList[0]=primaryWord;
-        similarTot=1;
-
-        changeOneChar(primaryWord,similarTot,similarList);
-
-        //addSuffix(primaryWord,similarTot,similarList);
-        findSimilar(primaryWord,similarTot,similarList);
-
-        addToFourString(primaryWord,similarTot,similarList);
-
-
-        qDebug()<<"totfind: "<<similarTot;
-        std::random_shuffle(similarList,similarList+similarTot);
-        return similarList;*/
-        if (primaryWord.size()==1)
-        {
-            ans[0]=primaryWord;ans[1]="b";ans[2]="c";ans[4]="d";
-            std::random_shuffle(ans,ans+4);
-            return ans;
-        }
+    void changeTwoLetter(QString* ans,int &tot,const QString &primaryWord){
         QString newWord=primaryWord;
         for (int i=0;i<primaryWord.size();i++)
-               for (int j=0;j<primaryWord.size();j++) if (i!=j)
+               for (int j=primaryWord.size()-1;j>i;j--)
                {
-                   for (int a='a';a<='z';a++)
-                       for (int b='a';b<='z';b++)
+                   for (char a='a';a<='z';a++)
+                       for (char b='a';b<='z';b++) if (a!=primaryWord[i]&&b!=primaryWord[j])
                        {
                            newWord[i]=a;newWord[j]=b;
+
                            if (tot<4&&dict.find(newWord)!=dict.end())
                            {
+                           //    qDebug()<<"changeTwoLetter: "<<newWord<<" "<<i<<j;
                                ans[tot++]=newWord;
                            }
                        }
                     newWord[i]=primaryWord[i];
                     newWord[j]=primaryWord[j];
                }
-        for (int i=tot;i<=4;i++) ans[tot++]="none";
+    }
+    void changeThreeLetter(QString* ans,int &tot,const QString &primaryWord){
+        QString newWord=primaryWord;
+        for (int i=primaryWord.size()-1;i>=0;i--)
+               for (int j=i+1;j<primaryWord.size();j++)
+                    for (int k=primaryWord.size()-1;k>j;k--)
+                    {
+                        for (char a='a';a<='z';a++)
+                            for (char b='a';b<='z';b++)
+                                for (char c='a';c<='z';c++) if (!(a==primaryWord[i]&&b==primaryWord[j]&&c==primaryWord[k]))
+                                {
+                                    newWord[i]=a;newWord[j]=b;newWord[k]=c;
+
+                                    if (tot<4&&dict.find(newWord)!=dict.end())
+                                    {
+                                        ans[tot++]=newWord;
+                                    }
+                                }
+                        newWord[i]=primaryWord[i];
+                        newWord[j]=primaryWord[j];
+                        newWord[k]=primaryWord[k];
+                    }
+    }
+
+    QString* findSimilar(QString primaryWord)
+    {
+        QString *ans=new QString[5];int tot=0;
+        ans[0]=primaryWord;
+
+        if (primaryWord.size()==1)
+        {
+            ans[0]=primaryWord;ans[1]="b";ans[2]="c";ans[3]="d";
+            std::random_shuffle(ans,ans+4);
+            return ans;
+        }
+        changeOneLetter(ans,tot,primaryWord);
+        if (primaryWord.size()>1&&tot<4) changeTwoLetter(ans,tot,primaryWord);
+        //if (primaryWord.size()>2&&tot<4) changeThreeLetter(ans,tot,primaryWord);
+
+        for (int i=tot+1;i<=4;i++) ans[tot++]="none";
         std::random_shuffle(ans,ans+4);
+        //for (int i=0;i<4;i++) qDebug()<<ans[i];
         return ans;
     }
 }
@@ -418,12 +424,19 @@ Func::TestPair* Func::startTest(int _tot)
     Func::TestPair *ans=new Func::TestPair[User::testWordTot];
     StartTest::reloadTypeByTime();
     int* myList=StartTest::getTest(User::testWordTot);
+    saveUser();
     for (int i=0;i<User::testWordTot;i++)
     {
-        ans[i].first=user[myList[i]].word;
-        ans[i].second=StartTest::findSimilar(ans[i].first);
+        //qDebug()<<"number of testList:"<<myList[i];
+
+        ans[i].first=myList[i];
+        //qDebug()<<"word of testList:"<<ans[i].first;
+        ans[i].second=StartTest::findSimilar(user[myList[i]].word);
+        //for (int j=0;j<4;j++) qDebug()<<"similar word:"<<ans[i].second[j];
     }
+
     User::recordTestList=myList;
+    //qDebug()<<"!!"<<ans;//
     return ans;
 }
 void Func::answerForTest(int id,Answer answer)
@@ -444,7 +457,7 @@ namespace EndTest
 {
     void reloadTypeByUser()
     {
-        for (int i=0;i<User::userTot;i++)
+        for (int i=0;i<User::total;i++)
         {
             User my=user[User::recordTestList[i]];
             if (my.type==User::knownWord)
@@ -476,51 +489,15 @@ void Func::endTest()
 }
 int* Func::analysisArticle(QString* article,int tot)
 {
-    int ans[100];int myTot=0;
+    int *ans= new int[100];int myTot=0;
     for (int i=0;i<tot;i++)
     {
         if (userDict.find(article[i])==userDict.end())
         {
-            int userID=userDict[article[i]];
-            int wordID=user[userID].id;
-            ans[myTot++]=wordID;
+            ans[myTot++]=dict[article[i]];
         }
     }
+    ans[myTot]=-1;
     return ans;
 }
-
-/*void findSimilar(QString primaryWord,int &similarTot,QString* similarList)
-{
-    int recordTot=similarTot;
-    double digit=0.5;
-    for (int k=0;k<Word::total;k++)
-    {
-        if (digit>20) digit=0.7;
-        if (digit>50) digit=0.8;
-        if (digit>100) digit=0.9;
-        int flag=0,len=0;QString recordWord;
-        for (int i=0;i<primaryWord.size();i++)
-        {
-            for (int j=i+1;j<primaryWord.size();j++)
-            {
-                QString smallWord=primaryWord.mid(i,j-i+1);
-                if (word[k].word.contains(smallWord))
-                {
-                   flag=1;
-                   if (smallWord.size()>len)
-                   {
-                       len=smallWord.size();
-                       recordWord=smallWord;
-                   }
-                }
-
-            }
-        }
-        if (double(len)/word[k].word.size()>digit)
-        {
-            if (word[k].word.size()!=0) similarList[++similarTot]=word[k].word;
-        }
-    }
-    qDebug()<<"findSimilar: "<<similarTot-recordTot;
-}*/
 

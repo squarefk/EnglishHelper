@@ -1,11 +1,24 @@
+有两个class Word和User分别单词库和用户的信息
+
 Func Class
-  loadDictionary()//载入单词库
-  saveDictionary()//导出记忆信息
-  loadUser()//导入记忆信息
-  saveUser()//导出记忆信息
-  query(string word)//查单词，返回单词信息和亲缘单词
-  makeTest(int tot)//返回tot个单词和每个的4个中文释义
-  answerForTest();
-  endTest();
-  analysisArticle(string *article)//传入一篇文章，返回一个数组为生单词的词库下标
-  
+    void loadDictionary(); //导入字典,构造函数调用
+    void saveDictionary();//导出字典
+    void loadUser(); //导入记忆信息，构造函数调用
+    void saveUser(); //导出记忆信息，每次Test完毕后会更新用户信息
+    
+    QueryPair* query(QString a);
+      //查单词，传入单词，返回result
+      //result->frist 为QString单词
+      //result->second 为QString*亲缘单词数组，为"###"表示结束
+    TestPair* startTest(int tot);//测试准备
+      //Test开始时需调用
+      //传入Test的单词个数，返回result*
+      //result[i]->first 为第i个单词的User编号
+      //result[i]->second[j]分别为4个相似单词
+    void answerForTest(int id,Answer answer);
+      //答每一道题时均需调用，记录连续答对等信息
+      //传入单词的编号和这个单词是否答对
+    void endTest();
+      //Test结束需调用，处理记忆规律和更新用户文件
+    int* analysisArticle(QString* article,int tot);
+      //分析文章，传入QString*，返回生单词的Word编号

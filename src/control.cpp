@@ -1,5 +1,6 @@
 #include "control.h"
 #include "ui_control.h"
+#include "func.h"
 
 #include <QDebug>
 
@@ -81,6 +82,11 @@ void Control::showSettings()
 
 void Control::query(QString word)
 {
-    //findUi->queryResult(func->query(word));
+    Func::QueryPair *result=func->query(word);
+    findUi->queryResult(result->first);
+    for (int i=0;result->second[i]!="###";i++)
+    {
+        qDebug()<<result->second[i];
+    }
 }
 
