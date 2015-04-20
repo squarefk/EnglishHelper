@@ -17,9 +17,9 @@
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>0</y>
+     <y>65</y>
      <width>301</width>
-     <height>476</height>
+     <height>411</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -39,6 +39,9 @@
       </property>
       <property name="text">
        <string>apple</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
       </property>
      </widget>
     </item>
@@ -183,7 +186,7 @@
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>220</y>
+     <y>250</y>
      <width>31</width>
      <height>31</height>
     </rect>
@@ -193,7 +196,7 @@
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>270</y>
+     <y>300</y>
      <width>31</width>
      <height>31</height>
     </rect>
@@ -203,7 +206,7 @@
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>320</y>
+     <y>344</y>
      <width>31</width>
      <height>31</height>
     </rect>
@@ -213,7 +216,7 @@
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>365</y>
+     <y>385</y>
      <width>31</width>
      <height>31</height>
     </rect>
@@ -223,7 +226,7 @@
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>270</y>
+     <y>300</y>
      <width>31</width>
      <height>31</height>
     </rect>
@@ -233,7 +236,7 @@
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>320</y>
+     <y>344</y>
      <width>31</width>
      <height>31</height>
     </rect>
@@ -243,7 +246,7 @@
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>365</y>
+     <y>385</y>
      <width>31</width>
      <height>31</height>
     </rect>
@@ -253,7 +256,7 @@
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>220</y>
+     <y>250</y>
      <width>31</width>
      <height>31</height>
     </rect>
