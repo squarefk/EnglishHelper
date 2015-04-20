@@ -17,6 +17,7 @@ class SettingsUi : public QWidget
 public:
     explicit SettingsUi(QWidget *parent = 0);
     ~SettingsUi();
+    int testNumber();
 
 private:
     Ui::SettingsUi *ui;

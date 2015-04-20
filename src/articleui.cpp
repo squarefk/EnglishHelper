@@ -14,9 +14,21 @@ ArticleUi::ArticleUi(QWidget *parent) :
 
     connect(ui->back, SIGNAL(clicked()),
             this, SIGNAL(backClicked()));
+    connect(ui->analysis, SIGNAL(clicked()),
+            this, SLOT(analysisClicked()));
 }
 
 ArticleUi::~ArticleUi()
 {
     delete ui;
+}
+
+void ArticleUi::analysisResult(QString result)
+{
+    ui->label->setText(result);
+}
+
+void ArticleUi::analysisClicked()
+{
+    emit analysis(ui->lineEdit->text());
 }

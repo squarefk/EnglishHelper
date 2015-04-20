@@ -22,3 +22,8 @@ SettingsUi::~SettingsUi()
 {
     delete ui;
 }
+
+int SettingsUi::testNumber()
+{
+    return ui->spinBox->value();
+}

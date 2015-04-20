@@ -21,6 +21,14 @@ private:
 
 signals:
     void backClicked();
+    void analysis(QString);
+
+private slots:
+    void analysisClicked();
+
+public slots:
+    void analysisResult(QString);
+
 };
 
 #endif // ARTICLEUI_H

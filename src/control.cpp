@@ -45,6 +45,14 @@ Control::Control(QWidget *parent) :
 
     connect(findUi, SIGNAL(query(QString)),
             this, SLOT(query(QString)));
+    connect(articleUi, SIGNAL(analysis(QString)),
+            this, SLOT(analysis(QString)));
+    connect(chooseUi, SIGNAL(memoryClicked()),
+            this, SLOT(memoryStart()));
+    connect(memoryUi, SIGNAL(nextClicked()),
+            this, SLOT(memoryNextClicked()));
+    connect(memoryUi, SIGNAL(choiceClicked(int)),
+            this, SLOT(memoryChoiceClicked(int)));
 }
 
 Control::~Control()
@@ -90,3 +98,49 @@ void Control::query(QString word)
     }
 }
 
+void Control::analysis(QString article)
+{
+    articleUi->analysisResult(func->analysisArticle(article));
+}
+
+void Control::memoryStart()
+{
+    memoryUi->setBack(false);
+    totalQuestions=settingsUi->testNumber();
+    nowQuestions=0;
+    questions=func->startTest(totalQuestions);
+    memoryNextClicked();
+}
+
+void Control::memoryChoiceClicked(int userAnswer)
+{
+    memoryUi->setNext(true);
+    memoryUi->setChoice(false);
+    memoryUi->showAnswer(userAnswer, questions[nowQuestions].third);
+    if (userAnswer==questions[nowQuestions].third)
+        func->answerForTest(nowQuestions-1, Yes);
+    else
+        func->answerForTest(nowQuestions-1, No);
+}
+
+void Control::memoryNextClicked()
+{
+    memoryUi->hideAnswer();
+    ++nowQuestions;
+    if (nowQuestions>totalQuestions)
+    {
+        memoryUi->setNext(false);
+        memoryUi->setChoice(false);
+        memoryUi->setBack(true);
+        func->endTest();
+    } else {
+        qDebug()<<"sadf";
+        memoryUi->setNext(false);
+        memoryUi->setChoice(true);
+        memoryUi->showQuestion( questions[nowQuestions].first,
+                                questions[nowQuestions].second[0],
+                                questions[nowQuestions].second[1],
+                                questions[nowQuestions].second[2],
+                                questions[nowQuestions].second[3]);
+    }
+}

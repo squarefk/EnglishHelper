@@ -245,7 +245,7 @@ namespace StartTest
         for (int i=1;i<=tot;i++)
         {
             do{
-                newID=(rand()*rand())%Word::total;
+                newID=((rand()*rand())%Word::total+Word::total)%Word::total;
             }
             while(userDict.find(word[newID].word)!=userDict.end());
 

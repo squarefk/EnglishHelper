@@ -1,3 +1,11 @@
+QWidget#t0,#t1,#t2,#t3{
+	border-image: url(:/images/images/true.png);
+}
+
+QWidget#f0,#f1,#f2,#f3{
+	border-image: url(:/images/images/false.png);
+}
+
 QPushButton {
 	border-radius:5px;
 	margin: 5% 5%;

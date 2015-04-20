@@ -32,6 +32,8 @@ private:
     ArticleUi *articleUi;
     SettingsUi *settingsUi;
     Func *func;
+    Func::TestPair* questions;
+    int totalQuestions,nowQuestions;
 
 private slots:
     void showChoose();
@@ -40,6 +42,10 @@ private slots:
     void showArticle();
     void showSettings();
     void query(QString);
+    void analysis(QString);
+    void memoryStart();
+    void memoryChoiceClicked(int);
+    void memoryNextClicked();
 };
 
 #endif // CONTROL_H
