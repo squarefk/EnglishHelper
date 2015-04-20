@@ -22,6 +22,7 @@ Func::Func()
 {
     loadDictionary();
     loadUser();
+    //startTest(5);
 }
 
 Func::~Func()
@@ -95,13 +96,13 @@ void Func::saveDictionary(){
             stream<<word[i].info<<endl;
             stream<<"###"<<endl;
         }
-
         file->close();
     }else{
         qDebug()<<"open dictionary_save.txt fail";
     }
 
 }
+
 void makeIndex_userDict(){
     for (int i=0;i<User::total;i++)
     {
@@ -152,7 +153,7 @@ void Func::loadUser()
 
 void Func::saveUser()
 {
-    QFile *file = new QFile("user_save.txt");
+    QFile *file = new QFile("user.txt");
 
     if (file->open(QFile::WriteOnly | QFile::Text))
     {
@@ -238,6 +239,7 @@ namespace StartTest
             if (str.contains(QRegExp("[\\x4e00-\\x9fa5]+"))){
                 ans+=str;
             }
+            if (str=="\n"&&ans!="") break;
         }
         return ans;
     }
