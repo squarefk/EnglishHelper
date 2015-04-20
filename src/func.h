@@ -30,8 +30,9 @@ public:
     };
     class TestPair{
     public:
-        int first;
+        QString first;
         QString* second;
+        int third;
     };
     Func();
 	~Func();

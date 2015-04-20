@@ -426,15 +426,16 @@ Func::TestPair* Func::startTest(int _tot)
     Func::TestPair *ans=new Func::TestPair[User::testWordTot];
     StartTest::reloadTypeByTime();
     int* myList=StartTest::getTest(User::testWordTot);
-    saveUser();
     for (int i=0;i<User::testWordTot;i++)
     {
         //qDebug()<<"number of testList:"<<myList[i];
 
-        ans[i].first=myList[i];
+        ans[i].first=user[myList[i]].word;
         //qDebug()<<"word of testList:"<<ans[i].first;
         ans[i].second=StartTest::findSimilar(user[myList[i]].word);
         //for (int j=0;j<4;j++) qDebug()<<"similar word:"<<ans[i].second[j];
+        ans[i].third=-1;
+        for (int j=0;j<4;j++) if (user[myList[i]].word == ans[i].second[j]) ans[i].third=j;
     }
 
     User::recordTestList=myList;

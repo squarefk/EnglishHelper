@@ -15,10 +15,11 @@ Func Class
       //传入Test的单词个数，返回result*
       //result[i]->first 为第i个单词的User编号
       //result[i]->second[j]分别为4个相似单词
+      //result[i]->third为正确单词的编号 (即result->second[ result[i]->third ]为正确单词)
     void answerForTest(int id,Answer answer);
       //答每一道题时均需调用，记录连续答对等信息
       //传入单词的编号和这个单词是否答对
     void endTest();
       //Test结束需调用，处理记忆规律和更新用户文件
-    int* analysisArticle(QString* article,int tot);
-      //分析文章，传入QString*，返回生单词的Word编号
+    QString analysisArticle(QString article,int tot);
+      //分析文章，传入QString，返回生单词(包含回车)
