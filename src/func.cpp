@@ -22,9 +22,6 @@ Func::Func()
 {
     loadDictionary();
     loadUser();
-    startTest(20);
-    //QString ans=analysisArticle("22 my g3od what the  fuck $");
-    //qDebug()<<ans;
 }
 
 Func::~Func()
@@ -234,6 +231,17 @@ Func::QueryPair* Func::query(QString a){
 
 namespace StartTest
 {
+    QString getChinese(const QString &myWord){
+        QString ans="";
+        for (int i=0;i<myWord.size();i++){
+            QString str=myWord[i];
+            if (str.contains(QRegExp("[\\x4e00-\\x9fa5]+"))){
+                ans+=str;
+            }
+        }
+        return ans;
+    }
+
     int getSystemTime()
     {
         return std::time(NULL);
@@ -401,7 +409,7 @@ namespace StartTest
 
     QString* findSimilar(QString primaryWord)
     {
-        QString *ans=new QString[5];int tot=0;
+        QString *ans=new QString[5];int tot=1;
         ans[0]=primaryWord;
 
         if (primaryWord.size()==1)
@@ -414,7 +422,11 @@ namespace StartTest
         if (primaryWord.size()>1&&tot<4) changeTwoLetter(ans,tot,primaryWord);
         //if (primaryWord.size()>2&&tot<4) changeThreeLetter(ans,tot,primaryWord);
 
-        for (int i=tot+1;i<=4;i++) ans[tot++]="none";
+
+        for (int i=tot+1;i<=4;i++){
+            int ID=((rand()*rand())%Word::total+Word::total)%Word::total;
+            ans[tot++]=word[ID].word;
+        }
         std::random_shuffle(ans,ans+4);
         //for (int i=0;i<4;i++) qDebug()<<ans[i];
         return ans;
@@ -431,12 +443,13 @@ Func::TestPair* Func::startTest(int _tot)
     {
         //qDebug()<<"number of testList:"<<myList[i];
 
-        ans[i].first=word[user[myList[i]].id].info;
+        ans[i].first=StartTest::getChinese(word[user[myList[i]].id].info);
         //qDebug()<<"word of testList:"<<ans[i].first;
         ans[i].second=StartTest::findSimilar(user[myList[i]].word);
-        //for (int j=0;j<4;j++) qDebug()<<"similar word:"<<ans[i].second[j];
         ans[i].third=-1;
-        for (int j=0;j<4;j++) if (user[myList[i]].word == ans[i].second[j]) ans[i].third=j;
+        for (int j=0;j<4;j++){
+            if (user[myList[i]].word == ans[i].second[j]) ans[i].third=j;
+        }
     }
 
     User::recordTestList=myList;
@@ -488,6 +501,7 @@ namespace EndTest
 }
 void Func::endTest()
 {
+    qDebug()<<"test complete";
     EndTest::reloadTypeByUser();
     saveUser();
 }
