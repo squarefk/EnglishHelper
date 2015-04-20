@@ -22,6 +22,8 @@ Func::Func()
 {
     loadDictionary();
     loadUser();
+    QString *ans=analysisArticle("22 my g3od what the  fuck $");
+    for (int i=0;ans[i]!="###";i++) qDebug()<<ans[i];
 }
 
 Func::~Func()
@@ -487,17 +489,41 @@ void Func::endTest()
     EndTest::reloadTypeByUser();
     saveUser();
 }
-int* Func::analysisArticle(QString* article,int tot)
+
+namespace analysisArticleSpace{
+    void makeStringList(const QString &paper,QStringList &article){
+        article = paper.split(" ");
+        for (int i=0;i<article.size();i++){
+        //    qDebug()<<"article[i]: "<<article[i];
+            if (!(('a'<=article[i][0]&&article[i][0]<='z')
+                ||('A'<=article[i][0]&&article[i][0]<='Z'))){
+                article[i]="###";
+            }
+        }
+    }
+}
+
+QString* Func::analysisArticle(QString paper)
 {
-    int *ans= new int[100];int myTot=0;
-    for (int i=0;i<tot;i++)
+
+    //qDebug()<<"in analysisArticle";
+    int *ans= new int[100];
+    QString *ans2= new QString[100];
+    QStringList article;int tot;
+    analysisArticleSpace::makeStringList(paper,article);
+    int myTot=0;
+    for (int i=0;i<article.size();i++) if (article[i]!="###")
     {
-        if (userDict.find(article[i])==userDict.end())
+        if (userDict.find(article[i])==userDict.end() && dict.find(article[i]) != dict.end())
         {
             ans[myTot++]=dict[article[i]];
         }
     }
+    //qDebug()<<"myTot: "<<myTot;
+
     ans[myTot]=-1;
-    return ans;
+    for (int i=0;ans[i]!=-1;i++) ans2[i]=word[ans[i]].word;
+    ans2[myTot]="###";
+    return ans2;
 }
 
