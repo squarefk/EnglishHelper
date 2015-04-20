@@ -22,8 +22,8 @@ Func::Func()
 {
     loadDictionary();
     loadUser();
-    QString *ans=analysisArticle("22 my g3od what the  fuck $");
-    for (int i=0;ans[i]!="###";i++) qDebug()<<ans[i];
+    //QString ans=analysisArticle("22 my g3od what the  fuck $");
+    //qDebug()<<ans;
 }
 
 Func::~Func()
@@ -503,12 +503,12 @@ namespace analysisArticleSpace{
     }
 }
 
-QString* Func::analysisArticle(QString paper)
+QString Func::analysisArticle(QString paper)
 {
 
     //qDebug()<<"in analysisArticle";
     int *ans= new int[100];
-    QString *ans2= new QString[100];
+    QString ans2="";
     QStringList article;int tot;
     analysisArticleSpace::makeStringList(paper,article);
     int myTot=0;
@@ -517,13 +517,13 @@ QString* Func::analysisArticle(QString paper)
         if (userDict.find(article[i])==userDict.end() && dict.find(article[i]) != dict.end())
         {
             ans[myTot++]=dict[article[i]];
+            if (ans2!="") ans2=ans2+"\n";
+            ans2=ans2+article[i];
         }
     }
     //qDebug()<<"myTot: "<<myTot;
 
     ans[myTot]=-1;
-    for (int i=0;ans[i]!=-1;i++) ans2[i]=word[ans[i]].word;
-    ans2[myTot]="###";
     return ans2;
 }
 

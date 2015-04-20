@@ -43,7 +43,7 @@ public:
     TestPair* startTest(int tot);//测试准备
     void answerForTest(int id,Answer answer);//每道题的回答
     void endTest();//测试结束
-    QString* analysisArticle(QString article);//分析文章
+    QString analysisArticle(QString article);//分析文章
 };
 
 #endif
