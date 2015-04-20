@@ -22,6 +22,7 @@ Func::Func()
 {
     loadDictionary();
     loadUser();
+    startTest(20);
     //QString ans=analysisArticle("22 my g3od what the  fuck $");
     //qDebug()<<ans;
 }
@@ -245,7 +246,7 @@ namespace StartTest
         for (int i=1;i<=tot;i++)
         {
             do{
-                newID=(rand()*rand())%Word::total;
+                newID=((rand()*rand())%Word::total+Word::total)%Word::total;
             }
             while(userDict.find(word[newID].word)!=userDict.end());
 
@@ -430,7 +431,7 @@ Func::TestPair* Func::startTest(int _tot)
     {
         //qDebug()<<"number of testList:"<<myList[i];
 
-        ans[i].first=user[myList[i]].word;
+        ans[i].first=word[user[myList[i]].id].info;
         //qDebug()<<"word of testList:"<<ans[i].first;
         ans[i].second=StartTest::findSimilar(user[myList[i]].word);
         //for (int j=0;j<4;j++) qDebug()<<"similar word:"<<ans[i].second[j];
