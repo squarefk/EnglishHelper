@@ -233,14 +233,16 @@ Func::QueryPair* Func::query(QString a){
 namespace StartTest
 {
     QString getChinese(const QString &myWord){
-        QString ans="";
+        QString ans="";int flag=0;
         for (int i=0;i<myWord.size();i++){
             QString str=myWord[i];
-            if (str.contains(QRegExp("[\\x4e00-\\x9fa5]+"))){
+            if (str.contains(QRegExp("[\\x4e00-\\x9fa5]+"))||flag){
+                flag=1;
                 ans+=str;
             }
             if (str=="\n"&&ans!="") break;
         }
+        if (ans=="") ans=myWord;
         return ans;
     }
 
@@ -446,7 +448,7 @@ Func::TestPair* Func::startTest(int _tot)
         //qDebug()<<"number of testList:"<<myList[i];
 
         ans[i].first=StartTest::getChinese(word[user[myList[i]].id].info);
-        //qDebug()<<"word of testList:"<<ans[i].first;
+       // qDebug()<<"word of testList:"<<ans[i].first;
         ans[i].second=StartTest::findSimilar(user[myList[i]].word);
         ans[i].third=-1;
         for (int j=0;j<4;j++){
