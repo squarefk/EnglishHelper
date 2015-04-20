@@ -106,7 +106,8 @@ void Control::analysis(QString article)
 void Control::memoryStart()
 {
     memoryUi->setBack(false);
-    totalQuestions=settingsUi->testNumber();
+//    totalQuestions=settingsUi->testNumber();
+    totalQuestions=3;
     nowQuestions=0;
     questions=func->startTest(totalQuestions);
     memoryNextClicked();
@@ -116,8 +117,8 @@ void Control::memoryChoiceClicked(int userAnswer)
 {
     memoryUi->setNext(true);
     memoryUi->setChoice(false);
-    memoryUi->showAnswer(userAnswer, questions[nowQuestions].third);
-    if (userAnswer==questions[nowQuestions].third)
+    memoryUi->showAnswer(userAnswer, questions[nowQuestions-1].third);
+    if (userAnswer==questions[nowQuestions-1].third)
         func->answerForTest(nowQuestions-1, Yes);
     else
         func->answerForTest(nowQuestions-1, No);
@@ -134,13 +135,13 @@ void Control::memoryNextClicked()
         memoryUi->setBack(true);
         func->endTest();
     } else {
-        qDebug()<<"sadf";
         memoryUi->setNext(false);
         memoryUi->setChoice(true);
-        memoryUi->showQuestion( questions[nowQuestions].first,
-                                questions[nowQuestions].second[0],
-                                questions[nowQuestions].second[1],
-                                questions[nowQuestions].second[2],
-                                questions[nowQuestions].second[3]);
+        memoryUi->showQuestion( questions[nowQuestions-1].first,
+                                questions[nowQuestions-1].second[0],
+                                questions[nowQuestions-1].second[1],
+                                questions[nowQuestions-1].second[2],
+                                questions[nowQuestions-1].second[3]);
     }
+
 }

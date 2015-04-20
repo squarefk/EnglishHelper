@@ -1,8 +1,8 @@
-QWidget#t0,#t1,#t2,#t3{
+QWidget#t0,#t1,#t2,#t3 {
 	border-image: url(:/images/images/true.png);
 }
 
-QWidget#f0,#f1,#f2,#f3{
+QWidget#f0,#f1,#f2,#f3 {
 	border-image: url(:/images/images/false.png);
 }
 

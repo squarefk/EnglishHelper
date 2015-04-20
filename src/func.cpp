@@ -22,7 +22,7 @@ Func::Func()
 {
     loadDictionary();
     loadUser();
-    startTest(20);
+    //startTest(20);
     //QString ans=analysisArticle("22 my g3od what the  fuck $");
     //qDebug()<<ans;
 }

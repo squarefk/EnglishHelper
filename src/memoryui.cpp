@@ -53,6 +53,8 @@ void MemoryUi::setBack(bool flag)
 void MemoryUi::setNext(bool flag)
 {
     ui->next->setEnabled(flag);
+    if (!flag) ui->next->setStyleSheet("background-color: rgb(205, 205, 205)");
+    else ui->next->setStyleSheet("background-color: rgb(0, 205, 0)");
 }
 
 void MemoryUi::setChoice(bool flag)
