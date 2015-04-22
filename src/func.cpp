@@ -46,6 +46,13 @@ void makeIndex_Dict()
 
 }
 
+namespace loadDictionarySpace{
+    void loadAnsTransDictionary(){
+        //There is some bug
+        //Like CERN is only recognise C
+    }
+}
+
 void Func::loadDictionary(){
     //1.
     QFile *file = new QFile("dictionary.txt");
@@ -178,6 +185,9 @@ void Func::saveUser()
 
 }
 
+//-----------------------------------------------Query-------------------------------------------------------------
+
+
 namespace QuerySpace
 {
     //返回最多5个相似单词数组,为###表示没有
@@ -229,6 +239,11 @@ Func::QueryPair* Func::query(QString a){
     answer->second[0]="###";
     return answer;
 }
+
+
+
+//-----------------------------------------------Test-------------------------------------------------------
+
 
 namespace StartTest
 {
@@ -529,6 +544,9 @@ void Func::endTest()
     qDebug()<<"saveUser() finish";
 }
 
+
+//------------------------------------------------Article---------------------------------------------------------
+
 namespace analysisArticleSpace{
     void makeStringList(const QString &paper,QStringList &article){
         article = paper.split(" ");
@@ -565,4 +583,3 @@ QString Func::analysisArticle(QString paper)
     ans[myTot]=-1;
     return ans2;
 }
-

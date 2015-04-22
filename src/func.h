@@ -47,4 +47,8 @@ public:
     QString analysisArticle(QString article);//分析文章
 };
 
+extern std::map<QString,int> dict;
+extern std::map<QString,int> userDict;
+
+
 #endif

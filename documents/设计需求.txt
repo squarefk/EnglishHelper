@@ -1,25 +1,29 @@
 有两个class Word和User分别单词库和用户的信息
 
 Func Class
-    void loadDictionary(); //导入字典,构造函数调用
+    【不用主动调用】void loadDictionary(); //导入字典,构造函数调用
     void saveDictionary();//导出字典
-    void loadUser(); //导入记忆信息，构造函数调用
-    void saveUser(); //导出记忆信息，每次Test完毕后会更新用户信息
+    【不用主动调用】void loadUser(); //导入记忆信息，构造函数调用
+    【不用主动调用】void saveUser(); //导出记忆信息，每次Test完毕后会更新用户信息
     
     QueryPair* query(QString a);
-      //查单词，传入单词，返回result
+      //查单词，传入单词，返回result类，有两个成员
       //result->frist 为QString单词
-      //result->second 为QString*亲缘单词数组，为"###"表示结束
+      //result->second 为QString*亲缘单词数组，以"###"表示结束
+    
     TestPair* startTest(int tot);//测试准备
-      //Test开始时需调用
-      //传入Test的单词个数，返回result*
+      //在Test开始时调用
+      //传入Test的单词个数，返回长度为测试个数的result数组，result类有三个成员
       //result[i]->first 为第i个单词的User编号
       //result[i]->second[j]分别为4个相似单词
       //result[i]->third为正确单词的编号 (即result->second[ result[i]->third ]为正确单词)
+    
     void answerForTest(int id,Answer answer);
-      //答每一道题时均需调用，记录连续答对等信息
+      //Test过程中，答完每一道题时均需调用，用来记录答题信息
       //传入单词的编号和这个单词是否答对
+    
     void endTest();
       //Test结束需调用，处理记忆规律和更新用户文件
+    
     QString analysisArticle(QString article,int tot);
       //分析文章，传入QString，返回生单词(包含回车)
