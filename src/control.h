@@ -10,6 +10,7 @@
 
 #include <QMainWindow>
 #include <QStackedWidget>
+#include <QMessageBox>
 
 namespace Ui {
 class Control;
@@ -33,7 +34,7 @@ private:
     SettingsUi *settingsUi;
     Func *func;
     Func::TestPair* questions;
-    int totalQuestions,nowQuestions;
+    int totalQuestions,nowQuestions,correctQuestions;
 
 private slots:
     void showChoose();

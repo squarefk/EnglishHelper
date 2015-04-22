@@ -12,6 +12,13 @@ ArticleUi::ArticleUi(QWidget *parent) :
     setStyleSheet(file->readAll());
     file->deleteLater();
 
+    label = new QLabel;
+    label->setWordWrap(true);
+    ui->scrollArea_2->setWidget(label);
+
+    textEdit = new QTextEdit;
+    ui->scrollArea->setWidget(textEdit);
+
     connect(ui->back, SIGNAL(clicked()),
             this, SIGNAL(backClicked()));
     connect(ui->analysis, SIGNAL(clicked()),
@@ -25,10 +32,10 @@ ArticleUi::~ArticleUi()
 
 void ArticleUi::analysisResult(QString result)
 {
-    ui->label->setText(result);
+    label->setText(result);
 }
 
 void ArticleUi::analysisClicked()
 {
-    emit analysis(ui->lineEdit->text());
+    emit analysis(textEdit->toPlainText());
 }

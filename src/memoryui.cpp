@@ -38,6 +38,8 @@ MemoryUi::MemoryUi(QWidget *parent) :
             this, SLOT(cButton()));
     connect(ui->D, SIGNAL(clicked()),
             this, SLOT(dButton()));
+
+    ui->question->setWordWrap(true);
 }
 
 MemoryUi::~MemoryUi()
@@ -48,6 +50,8 @@ MemoryUi::~MemoryUi()
 void MemoryUi::setBack(bool flag)
 {
     ui->back->setEnabled(flag);
+    if (!flag) ui->back->setStyleSheet("background-color: rgb(205, 205, 205)");
+    else ui->back->setStyleSheet("background-color: (255, 0, 0)");
 }
 
 void MemoryUi::setNext(bool flag)

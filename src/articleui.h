@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QFile>
+#include <QLabel>
+#include <QTextEdit>
 
 namespace Ui {
 class ArticleUi;
@@ -18,6 +20,8 @@ public:
 
 private:
     Ui::ArticleUi *ui;
+    QLabel *label;
+    QTextEdit *textEdit;
 
 signals:
     void backClicked();

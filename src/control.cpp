@@ -106,10 +106,10 @@ void Control::analysis(QString article)
 void Control::memoryStart()
 {
     memoryUi->setBack(false);
-//    totalQuestions=settingsUi->testNumber();
-    totalQuestions=3;
+    totalQuestions=settingsUi->testNumber();
     nowQuestions=0;
     questions=func->startTest(totalQuestions);
+    correctQuestions=0;
     memoryNextClicked();
 }
 
@@ -119,8 +119,10 @@ void Control::memoryChoiceClicked(int userAnswer)
     memoryUi->setChoice(false);
     memoryUi->showAnswer(userAnswer, questions[nowQuestions-1].third);
     if (userAnswer==questions[nowQuestions-1].third)
+    {
         func->answerForTest(nowQuestions-1, Yes);
-    else
+        correctQuestions++;
+    } else
         func->answerForTest(nowQuestions-1, No);
 }
 
@@ -133,6 +135,10 @@ void Control::memoryNextClicked()
         memoryUi->setNext(false);
         memoryUi->setChoice(false);
         memoryUi->setBack(true);
+        QMessageBox messageBox;
+        messageBox.setText("本次答题正确率是:"+QString::number(correctQuestions)+"/"
+                                            +QString::number(totalQuestions));
+        messageBox.exec();
         func->endTest();
     } else {
         memoryUi->setNext(false);
