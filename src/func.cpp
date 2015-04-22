@@ -233,15 +233,31 @@ Func::QueryPair* Func::query(QString a){
 namespace StartTest
 {
     QString getChinese(const QString &myWord){
-        QString ans="";int flag=0;
+        QString ans="";int first=0,found=0;
         for (int i=0;i<myWord.size();i++){
             QString str=myWord[i];
-            if (str.contains(QRegExp("[\\x4e00-\\x9fa5]+"))||flag){
-                flag=1;
+            if (str.contains(QRegExp("[\\x4e00-\\x9fa5]+"))||ans!=""){
+                if (ans=="") first=i;
+                if (ans==""&&i&&myWord[i-1]!=' '&&!myWord[i-1].isLetter())
+                {
+                    ans+=myWord[i-1];
+                }
+                if (first&&(str=="["||str=="(")) found=1;
+                if (first&&(str=="]"||str==")"&&!found)){
+                    //qDebug()<<"found!";
+                    //qDebug()<<ans;
+                    int j=first-1;
+                    while (j){
+                        ans=myWord[j]+ans;
+                        if (myWord[j]=='['||myWord[j]=='(') break;
+                        j--;
+                    }
+                }
                 ans+=str;
             }
             if (str=="\n"&&ans!="") break;
         }
+       // qDebug()<<"add: "<<ans;
         if (ans=="") ans=myWord;
         return ans;
     }
@@ -478,7 +494,8 @@ namespace EndTest
 {
     void reloadTypeByUser()
     {
-        for (int i=0;i<User::total;i++)
+        qDebug()<<"User:total :"<<User::total;
+        for (int i=0;i<User::testWordTot;i++)
         {
             User my=user[User::recordTestList[i]];
             if (my.type==User::knownWord)
@@ -505,9 +522,11 @@ namespace EndTest
 }
 void Func::endTest()
 {
-    qDebug()<<"test complete";
+    qDebug()<<"try: endTest";
     EndTest::reloadTypeByUser();
+    qDebug()<<"reloadTypeByUser() finish";
     saveUser();
+    qDebug()<<"saveUser() finish";
 }
 
 namespace analysisArticleSpace{
@@ -525,7 +544,7 @@ namespace analysisArticleSpace{
 
 QString Func::analysisArticle(QString paper)
 {
-
+    if ('A'<=paper[0]&&paper[0]<='Z') paper[0]=paper[0].toLower();
     //qDebug()<<"in analysisArticle";
     int *ans= new int[100];
     QString ans2="";
