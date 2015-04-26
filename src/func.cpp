@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include <QDir>
 #include <QDebug>
+#include <QtXmlPatterns/QXmlQuery>
 #include <iostream>
 #include <cstdlib>
 #include <cstdio>
@@ -20,7 +21,8 @@ std::map<QString,int> userDict;
 
 Func::Func()
 {
-    loadDictionary();
+    loadXML();
+   // loadDictionary();
     loadUser();
     //startTest(5);
 }
@@ -38,9 +40,9 @@ Func::~Func()
 //**********************************************
 
 //导入单词库
-void makeIndex_Dict()
+void makeIndex_Dict(int oldTot=0)
 {
-    for (int i=1;i<=Word::total;i++){
+    for (int i=0;i<=Word::total;i++){
         dict.insert(std::pair<QString,int>(word[i].word,i));
     }
 
@@ -52,9 +54,67 @@ namespace loadDictionarySpace{
         //Like CERN is only recognise C
     }
 }
+void addXML(const QString &all){
+    int pos=0;
+    while (pos<all.size()){
+        if (all[pos]=='<'){
+            //qDebug()<<"pos: "<<pos<<" "<<all[pos]<<all[pos+1]<<all[pos+2];
+            if (all[pos+1]=='w'&&all[pos+2]=='o'&&all[pos+3]=='r'&&all[pos+4]=='d'&&all[pos+5]=='>'){
+                pos=pos+6;
+                word[Word::total].word="";
+                while (!(all[pos]=='<'&&all[pos+1]=='/')) {word[Word::total].word+=all[pos];pos++;}
+            }
+            if (all[pos+1]=='t'&&all[pos+2]=='r'&&all[pos+3]=='a'&&all[pos+4]=='n'){
+                pos=pos+16;
+               // qDebug()<<"now: "<<all[pos-1]<<all[pos]<<all[pos+1];
+
+                word[Word::total].info="";
+                int ttt=0;
+                while (!(all[pos]==']'&&all[pos+1]==']'&&all[pos+2]=='>'&&all[pos+3]=='<'&&all[pos+4]=='/')){
+                    //qDebug()<<"in word:"<<all[pos]<<"["<<pos<<"]";
+                    word[Word::total].info+=all[pos];
+                    pos++;
+                    ttt++;
+                    if (ttt>3000) break;
+                }
+                if (ttt>3000){
+                    qDebug()<<"System Error!";
+                    return;
+                }
+                Word::total++;
+            }
+        }
+        pos++;
+    }
+}
+
+void Func::loadXML(){
+    int oldTot=Word::total;
+    QFile *file = new QFile("test.xml");
+
+    if (file->open(QFile::ReadOnly | QFile::Text))
+    {
+        qDebug()<<"open file success";
+        QString line,all;int tot=0;
+        file->deleteLater();
+        QByteArray buff = file->readAll();
+        QTextStream stream( &buff );
+        stream.setCodec("UTF-8");
+        while ( !stream.atEnd() ) {
+            line=stream.readLine();
+            all+=line;
+        }
+        //qDebug()<<"size of all: "<<all.size();
+        addXML(all);
+    }else
+    {
+        qDebug()<<"no file";
+    }
+     makeIndex_Dict(oldTot);
+}
 
 void Func::loadDictionary(){
-    //1.
+
     QFile *file = new QFile("dictionary.txt");
 
     if (file->open(QFile::ReadOnly | QFile::Text))
@@ -340,14 +400,14 @@ namespace StartTest
             line[totNow++]=i;
         }
         std::random_shuffle(line,line+totNow);
-        for (int i=1;i<=std::min(totNow,grayWordTot);i++) {use[line[i]]=1;ans[ansTot++]=line[i];}
+        for (int i=0;i<std::min(totNow,grayWordTot);i++) {use[line[i]]=1;ans[ansTot++]=line[i];}
         totNow=0;
         for (int i=0;i<User::total;i++) if (user[i].type==User::newWord)
         {
             line[totNow++]=i;
         }
         std::random_shuffle(line,line+totNow);
-        for (int i=1;i<=std::min(totNow,newWordTot);i++) {ans[ansTot++]=line[i];use[line[i]]=1;}
+        for (int i=0;i<std::min(totNow,newWordTot);i++) {ans[ansTot++]=line[i];use[line[i]]=1;}
 
         totNow=0;
         for (int i=0;i<User::total;i++) if (user[i].type==User::knownWord)
@@ -355,7 +415,7 @@ namespace StartTest
             line[totNow++]=i;
         }
         std::random_shuffle(line,line+totNow);
-        for (int i=1;i<=std::min(knownWordTot,totNow);i++) {use[line[i]]=1;ans[ansTot++]=line[i];}
+        for (int i=0;i<std::min(knownWordTot,totNow);i++) {use[line[i]]=1;ans[ansTot++]=line[i];}
 
         if (ansTot<tot)
         {

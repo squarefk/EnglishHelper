@@ -36,6 +36,7 @@ public:
     };
     Func();
 	~Func();
+    void loadXML();
     void loadDictionary(); //导入字典
     void saveDictionary();//导出字典
 	void loadUser(); //导入记忆信息

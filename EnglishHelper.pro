@@ -7,11 +7,13 @@
 QT       += webkit
 QT       += webkitwidgets
 QT       += core gui
-
+QT       += xml
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = EnglishHelper
 TEMPLATE = app
+
+CONFIG  +=axcontainer
 
 SOURCES += \
     src/main.cpp \
