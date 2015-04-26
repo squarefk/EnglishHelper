@@ -3,6 +3,7 @@
 
 #include "aboutui.h"
 
+#include <QFileDialog>
 #include <QWidget>
 #include <QFile>
 
@@ -24,6 +25,11 @@ private:
 
 signals:
     void backClicked();
+    void loadXML(QString);
+
+private slots:
+    void initClicked();
+    void selectClicked();
 };
 
 #endif // SETTINGSUI_H

@@ -16,6 +16,10 @@ SettingsUi::SettingsUi(QWidget *parent) :
             this, SIGNAL(backClicked()));
     connect(ui->about, SIGNAL(clicked()),
             new AboutUi, SLOT(exec()));
+    connect(ui->init, SIGNAL(clicked()),
+            this, SLOT(initClicked()));
+    connect(ui->select, SIGNAL(clicked()),
+            this, SLOT(selectClicked()));
 }
 
 SettingsUi::~SettingsUi()
@@ -26,4 +30,17 @@ SettingsUi::~SettingsUi()
 int SettingsUi::testNumber()
 {
     return ui->spinBox->value();
+}
+
+void SettingsUi::initClicked()
+{
+    ui->spinBox->setValue(20);
+}
+
+void SettingsUi::selectClicked()
+{
+    QFileDialog* file = new QFileDialog;
+    file->setModal( QFileDialog::AnyFile );
+    if ( file->exec() == QDialog::Accepted )
+        emit loadXML(file->selectedFiles().at(0));
 }

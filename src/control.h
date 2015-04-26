@@ -47,6 +47,7 @@ private slots:
     void memoryStart();
     void memoryChoiceClicked(int);
     void memoryNextClicked();
+    void loadXML(QString);
 };
 
 #endif // CONTROL_H

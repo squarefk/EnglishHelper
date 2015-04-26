@@ -53,6 +53,8 @@ Control::Control(QWidget *parent) :
             this, SLOT(memoryNextClicked()));
     connect(memoryUi, SIGNAL(choiceClicked(int)),
             this, SLOT(memoryChoiceClicked(int)));
+    connect(settingsUi, SIGNAL(loadXML(QString)),
+            this, SLOT(loadXML(QString)));
 }
 
 Control::~Control()
@@ -149,5 +151,9 @@ void Control::memoryNextClicked()
                                 questions[nowQuestions-1].second[2],
                                 questions[nowQuestions-1].second[3]);
     }
+}
+
+void Control::loadXML(QString file)
+{
 
 }
