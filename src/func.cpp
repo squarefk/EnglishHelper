@@ -46,6 +46,13 @@ void makeIndex_Dict()
 
 }
 
+namespace loadDictionarySpace{
+    void loadAnsTransDictionary(){
+        //There is some bug
+        //Like CERN is only recognise C
+    }
+}
+
 void Func::loadDictionary(){
     //1.
     QFile *file = new QFile("dictionary.txt");
@@ -178,6 +185,9 @@ void Func::saveUser()
 
 }
 
+//-----------------------------------------------Query-------------------------------------------------------------
+
+
 namespace QuerySpace
 {
     //返回最多5个相似单词数组,为###表示没有
@@ -230,18 +240,39 @@ Func::QueryPair* Func::query(QString a){
     return answer;
 }
 
+
+
+//-----------------------------------------------Test-------------------------------------------------------
+
+
 namespace StartTest
 {
     QString getChinese(const QString &myWord){
-        QString ans="";int flag=0;
+        QString ans="";int first=0,found=0;
         for (int i=0;i<myWord.size();i++){
             QString str=myWord[i];
-            if (str.contains(QRegExp("[\\x4e00-\\x9fa5]+"))||flag){
-                flag=1;
+            if (str.contains(QRegExp("[\\x4e00-\\x9fa5]+"))||ans!=""){
+                if (ans=="") first=i;
+                if (ans==""&&i&&myWord[i-1]!=' '&&!myWord[i-1].isLetter())
+                {
+                    ans+=myWord[i-1];
+                }
+                if (first&&(str=="["||str=="(")) found=1;
+                if (first&&(str=="]"||str==")"&&!found)){
+                    //qDebug()<<"found!";
+                    //qDebug()<<ans;
+                    int j=first-1;
+                    while (j){
+                        ans=myWord[j]+ans;
+                        if (myWord[j]=='['||myWord[j]=='(') break;
+                        j--;
+                    }
+                }
                 ans+=str;
             }
             if (str=="\n"&&ans!="") break;
         }
+       // qDebug()<<"add: "<<ans;
         if (ans=="") ans=myWord;
         return ans;
     }
@@ -478,7 +509,8 @@ namespace EndTest
 {
     void reloadTypeByUser()
     {
-        for (int i=0;i<User::total;i++)
+        qDebug()<<"User:total :"<<User::total;
+        for (int i=0;i<User::testWordTot;i++)
         {
             User my=user[User::recordTestList[i]];
             if (my.type==User::knownWord)
@@ -505,10 +537,15 @@ namespace EndTest
 }
 void Func::endTest()
 {
-    qDebug()<<"test complete";
+    qDebug()<<"try: endTest";
     EndTest::reloadTypeByUser();
+    qDebug()<<"reloadTypeByUser() finish";
     saveUser();
+    qDebug()<<"saveUser() finish";
 }
+
+
+//------------------------------------------------Article---------------------------------------------------------
 
 namespace analysisArticleSpace{
     void makeStringList(const QString &paper,QStringList &article){
@@ -525,7 +562,7 @@ namespace analysisArticleSpace{
 
 QString Func::analysisArticle(QString paper)
 {
-
+    if ('A'<=paper[0]&&paper[0]<='Z') paper[0]=paper[0].toLower();
     //qDebug()<<"in analysisArticle";
     int *ans= new int[100];
     QString ans2="";
@@ -546,4 +583,3 @@ QString Func::analysisArticle(QString paper)
     ans[myTot]=-1;
     return ans2;
 }
-
