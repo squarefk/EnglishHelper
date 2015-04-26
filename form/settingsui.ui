@@ -106,7 +106,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="dictionary">
+       <widget class="QPushButton" name="select">
         <property name="minimumSize">
          <size>
           <width>125</width>

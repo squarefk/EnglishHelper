@@ -3,6 +3,7 @@
 
 #include "aboutui.h"
 
+#include <QFileDialog>
 #include <QWidget>
 #include <QFile>
 
@@ -27,6 +28,7 @@ signals:
 
 private slots:
     void initClicked();
+    void selectClicked();
 };
 
 #endif // SETTINGSUI_H
