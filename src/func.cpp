@@ -21,7 +21,7 @@ std::map<QString,int> userDict;
 
 Func::Func()
 {
-    loadXML();
+    loadXML("有道1.xml");
    // loadDictionary();
     loadUser();
     //startTest(5);
@@ -88,9 +88,9 @@ void addXML(const QString &all){
     }
 }
 
-void Func::loadXML(){
+void Func::loadXML(QString dir){
     int oldTot=Word::total;
-    QFile *file = new QFile("test.xml");
+    QFile *file = new QFile(dir);
 
     if (file->open(QFile::ReadOnly | QFile::Text))
     {

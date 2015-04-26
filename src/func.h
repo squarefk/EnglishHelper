@@ -36,10 +36,10 @@ public:
     };
     Func();
 	~Func();
-    void loadXML();
+    void loadXML(QString dir);
     void loadDictionary(); //导入字典
     void saveDictionary();//导出字典
-	void loadUser(); //导入记忆信息
+    void loadUser(); //导入记忆信息
 	void saveUser(); //导出记忆信息
     QueryPair* query(QString a);//查单词
     TestPair* startTest(int tot);//测试准备
