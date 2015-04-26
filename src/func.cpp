@@ -309,7 +309,7 @@ namespace StartTest
             line[totNow++]=i;
         }
         std::random_shuffle(line,line+totNow);
-        for (int i=1;i<=std::min(totNow,grayWordTot);i++) {use[line[i]]=1;ans[ansTot++]=line[i];}
+        for (int i=0;i<std::min(totNow,grayWordTot);i++) {use[line[i]]=1;ans[ansTot++]=line[i];}
         totNow=0;
         for (int i=0;i<User::total;i++) if (user[i].type==User::newWord)
         {

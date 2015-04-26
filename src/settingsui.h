@@ -24,6 +24,9 @@ private:
 
 signals:
     void backClicked();
+
+private slots:
+    void initClicked();
 };
 
 #endif // SETTINGSUI_H

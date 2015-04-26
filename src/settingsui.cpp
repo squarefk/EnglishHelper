@@ -16,6 +16,8 @@ SettingsUi::SettingsUi(QWidget *parent) :
             this, SIGNAL(backClicked()));
     connect(ui->about, SIGNAL(clicked()),
             new AboutUi, SLOT(exec()));
+    connect(ui->init, SIGNAL(clicked()),
+            this, SLOT(initClicked()));
 }
 
 SettingsUi::~SettingsUi()
@@ -26,4 +28,9 @@ SettingsUi::~SettingsUi()
 int SettingsUi::testNumber()
 {
     return ui->spinBox->value();
+}
+
+void SettingsUi::initClicked()
+{
+    ui->spinBox->setValue(20);
 }
