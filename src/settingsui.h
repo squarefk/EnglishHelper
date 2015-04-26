@@ -25,6 +25,7 @@ private:
 
 signals:
     void backClicked();
+    void loadXML(QString);
 
 private slots:
     void initClicked();

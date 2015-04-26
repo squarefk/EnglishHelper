@@ -41,7 +41,6 @@ void SettingsUi::selectClicked()
 {
     QFileDialog* file = new QFileDialog;
     file->setModal( QFileDialog::AnyFile );
-    QStringList filePath;
     if ( file->exec() == QDialog::Accepted )
-        filePath = file->selectedFiles();
+        emit loadXML(file->selectedFiles().at(0));
 }
