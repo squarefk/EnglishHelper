@@ -155,5 +155,5 @@ void Control::memoryNextClicked()
 
 void Control::loadXML(QString file)
 {
-
+    func->loadXML(file);
 }
