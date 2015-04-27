@@ -14,11 +14,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = EnglishHelper
 TEMPLATE = app
 
-CONFIG  += qaxcontainer
-
-LIBS += -lqaxserver \
-      -lqaxcontainer
-
 SOURCES += \
     src/main.cpp \
     src/control.cpp \
@@ -31,7 +26,6 @@ SOURCES += \
     src/func.cpp \
     src/aboutui.cpp \
     src/user.cpp \
-    src/excel_engine.cpp
 
 HEADERS  += \
     src/control.h \
@@ -44,7 +38,6 @@ HEADERS  += \
     src/func.h \
     src/aboutui.h \
     src/user.h \
-    src/excel_engine.h
 
 FORMS    += \
     form/control.ui \

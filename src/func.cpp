@@ -2,7 +2,6 @@
 #include "word.h"
 #include "user.h"
 #include "excel_engine.h"
-#include <ActiveQt/QAxObject>
 #include <QVariant>
 #include <QFile>
 #include <QTextStream>
