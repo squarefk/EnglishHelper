@@ -7,13 +7,17 @@
 QT       += webkit
 QT       += webkitwidgets
 QT       += core gui
-QT       += xml
+QT       += core
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = EnglishHelper
 TEMPLATE = app
 
-CONFIG  +=axcontainer
+CONFIG  += qaxcontainer
+
+LIBS += -lqaxserver \
+      -lqaxcontainer
 
 SOURCES += \
     src/main.cpp \
@@ -26,7 +30,8 @@ SOURCES += \
     src/word.cpp\
     src/func.cpp \
     src/aboutui.cpp \
-    src/user.cpp
+    src/user.cpp \
+    src/excel_engine.cpp
 
 HEADERS  += \
     src/control.h \
@@ -38,7 +43,8 @@ HEADERS  += \
     src/word.h \
     src/func.h \
     src/aboutui.h \
-    src/user.h
+    src/user.h \
+    src/excel_engine.h
 
 FORMS    += \
     form/control.ui \
