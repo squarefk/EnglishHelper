@@ -51,14 +51,3 @@ FORMS    += \
 
 RESOURCES += \
     res/resource.qrc \
-
-DISTFILES += \
-    res/dictionary/dictionary.txt
-
-macx{
-    copy_dictionary.path=$$OUT_PWD/EnglishHelper.app/Contents/MacOS/
-}
-copy_dictionary.files += res/dictionary/dictionary.txt
-
-INSTALLS += \
-    copy_dictionary

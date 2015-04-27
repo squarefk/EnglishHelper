@@ -108,7 +108,7 @@ void Func::loadXML(QString dir){
         addXML(all);
     }else
     {
-        qDebug()<<"no file";
+        qDebug()<<"no file XML";
     }
      makeIndex_Dict(oldTot);
 }
@@ -143,7 +143,7 @@ void Func::loadDictionary(){
         file->close();
     }else
     {
-        qDebug()<<"no file";
+        qDebug()<<"no file!!!";
     }
 
     makeIndex_Dict();
