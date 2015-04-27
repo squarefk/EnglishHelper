@@ -1,13 +1,15 @@
 #include "func.h"
 #include "word.h"
 #include "user.h"
+#include "excel_engine.h"
+#include <ActiveQt/QAxObject>
+#include <QVariant>
 #include <QFile>
 #include <QTextStream>
 #include <QTextCodec>
 #include <QMessageBox>
 #include <QDir>
 #include <QDebug>
-#include <QtXmlPatterns/QXmlQuery>
 #include <iostream>
 #include <cstdlib>
 #include <cstdio>
@@ -21,10 +23,8 @@ std::map<QString,int> userDict;
 
 Func::Func()
 {
-    loadXML("有道1.xml");
-   // loadDictionary();
+    loadDictionary();
     loadUser();
-    //startTest(5);
 }
 
 Func::~Func()
@@ -39,53 +39,72 @@ Func::~Func()
 //  2.and pair<sting,i1nt> into map , the 'int' is the position number of this word in word[]
 //**********************************************
 
-//导入单词库
-void makeIndex_Dict(int oldTot=0)
-{
-    for (int i=0;i<=Word::total;i++){
-        dict.insert(std::pair<QString,int>(word[i].word,i));
+namespace loadSpace{
+    //导入单词库
+    void makeIndex_Dict(int oldTot=0)
+    {
+        for (int i=0;i<=Word::total;i++){
+            dict.insert(std::pair<QString,int>(word[i].word,i));
+        }
     }
-
-}
-
-namespace loadDictionarySpace{
     void loadAnsTransDictionary(){
         //There is some bug
         //Like CERN is only recognise C
     }
-}
-void addXML(const QString &all){
-    int pos=0;
-    while (pos<all.size()){
-        if (all[pos]=='<'){
-            //qDebug()<<"pos: "<<pos<<" "<<all[pos]<<all[pos+1]<<all[pos+2];
-            if (all[pos+1]=='w'&&all[pos+2]=='o'&&all[pos+3]=='r'&&all[pos+4]=='d'&&all[pos+5]=='>'){
-                pos=pos+6;
-                word[Word::total].word="";
-                while (!(all[pos]=='<'&&all[pos+1]=='/')) {word[Word::total].word+=all[pos];pos++;}
-            }
-            if (all[pos+1]=='t'&&all[pos+2]=='r'&&all[pos+3]=='a'&&all[pos+4]=='n'){
-                pos=pos+16;
-               // qDebug()<<"now: "<<all[pos-1]<<all[pos]<<all[pos+1];
+    void addXML(const QString &all){
+        int pos=0;
+        while (pos<all.size()){
+            if (all[pos]=='<'){
+                //qDebug()<<"pos: "<<pos<<" "<<all[pos]<<all[pos+1]<<all[pos+2];
+                if (all[pos+1]=='w'&&all[pos+2]=='o'&&all[pos+3]=='r'&&all[pos+4]=='d'&&all[pos+5]=='>'){
+                    pos=pos+6;
+                    word[Word::total].word="";
+                    while (!(all[pos]=='<'&&all[pos+1]=='/')) {word[Word::total].word+=all[pos];pos++;}
+                }
+                if (all[pos+1]=='t'&&all[pos+2]=='r'&&all[pos+3]=='a'&&all[pos+4]=='n'){
+                    pos=pos+16;
+                   // qDebug()<<"now: "<<all[pos-1]<<all[pos]<<all[pos+1];
 
-                word[Word::total].info="";
-                int ttt=0;
-                while (!(all[pos]==']'&&all[pos+1]==']'&&all[pos+2]=='>'&&all[pos+3]=='<'&&all[pos+4]=='/')){
-                    //qDebug()<<"in word:"<<all[pos]<<"["<<pos<<"]";
-                    word[Word::total].info+=all[pos];
-                    pos++;
-                    ttt++;
-                    if (ttt>3000) break;
+                    word[Word::total].info="";
+                    int ttt=0;
+                    while (!(all[pos]==']'&&all[pos+1]==']'&&all[pos+2]=='>'&&all[pos+3]=='<'&&all[pos+4]=='/')){
+                        //qDebug()<<"in word:"<<all[pos]<<"["<<pos<<"]";
+                        word[Word::total].info+=all[pos];
+                        pos++;
+                        ttt++;
+                        if (ttt>3000) break;
+                    }
+                    if (ttt>3000){
+                        qDebug()<<"System Error!";
+                        return;
+                    }
+                    Word::total++;
                 }
-                if (ttt>3000){
-                    qDebug()<<"System Error!";
-                    return;
-                }
-                Word::total++;
             }
+            pos++;
         }
-        pos++;
     }
+}
+
+void Func::loadExcel(QString dir){
+  /*  ExcelEngine excel; //创建excl对象
+ //   excel.Open(dir,1,false); //打开指定的xls文件的指定sheet，且指定是否可见
+
+    int num = 0;
+    for (int i=1; i<=3; i++){
+        for (int j=1; j<=3; j++)
+        {
+           // excel.SetCellData(i,j,++num); //修改指定单元数据
+  //          qDebug()<<excel.GetCellData(i,j).toString();
+        }
+    }
+
+    //QVariant data = excel.GetCellData(1,1); //访问指定单元格数据
+    //excel.GetCellData(2,2);
+    //excel.GetCellData(3,3);
+
+ //   excel.Save(); //保存
+ //   excel.Close();*/
 }
 
 void Func::loadXML(QString dir){
@@ -105,12 +124,12 @@ void Func::loadXML(QString dir){
             all+=line;
         }
         //qDebug()<<"size of all: "<<all.size();
-        addXML(all);
+        loadSpace::addXML(all);
     }else
     {
         qDebug()<<"no file XML";
     }
-     makeIndex_Dict(oldTot);
+     loadSpace::makeIndex_Dict(oldTot);
 }
 
 void Func::loadDictionary(){
@@ -146,7 +165,7 @@ void Func::loadDictionary(){
         qDebug()<<"no file!!!";
     }
 
-    makeIndex_Dict();
+    loadSpace::makeIndex_Dict();
 }
 
 void Func::saveDictionary(){

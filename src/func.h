@@ -36,7 +36,8 @@ public:
     };
     Func();
 	~Func();
-    void loadXML(QString dir);
+    void loadExcel(QString dir);//导入Excel格式文件
+    void loadXML(QString dir);//导入xml格式文件
     void loadDictionary(); //导入字典
     void saveDictionary();//导出字典
     void loadUser(); //导入记忆信息
